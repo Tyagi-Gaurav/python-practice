@@ -1,5 +1,6 @@
 from ParsePlane import parse_planes
 from Routes import parse_routes
+from pymongo import MongoClient
 
 
 # Read & Validate Airlines
@@ -21,10 +22,19 @@ from Routes import parse_routes
 # Deserialize CSV into json
 # Store Json into Mongo
 # Be able to query data
+def insert_objects(db, collection, data, attribute):
+    db[collection].drop()
+    db[collection].insert_many([{attribute: item.__dict__} for item in data])
+    print('Created {0} records'.format(db[collection].count_documents({})))
+
 
 def main():
-    parse_planes()
-    parse_routes()
+    planes = parse_planes()
+    client = MongoClient("mongodb+srv://m220student:m220password@mflix-hnyn8.mongodb.net")
+    db = client.airdata
+    routes = parse_routes()
+    insert_objects(db, "planes", planes, "plane")
+    insert_objects(db, "routes", routes, "route")
     # convertEachRowToJson()
     # InsertDataIntoMongo
 

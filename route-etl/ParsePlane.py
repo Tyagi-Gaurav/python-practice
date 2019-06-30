@@ -26,3 +26,4 @@ def parse_planes():
             planes.append(Plane(row[0], row[1], row[2]))
         print(f'Processed {line_count} lines.')
     print(*planes, sep='\n')
+    return planes
