@@ -44,12 +44,12 @@ class Airports:
                "timezone: {3}, " \
                "altitude: {4}, " \
                "longitude: {5}, " \
-               "latitude: {6}" \
-               "icao_code: {7}" \
-               "iata_code: {8}" \
-               "city: {9}" \
-               "country: {10}" \
-               "name: {11}" \
+               "latitude: {6}," \
+               "icao_code: {7}," \
+               "iata_code: {8}," \
+               "city: {9}," \
+               "country: {10}," \
+               "name: {11}," \
                "airport_id: {12}".format(
             self.type,
             self.tz,
@@ -67,13 +67,16 @@ class Airports:
 
 
 def parse_airports():
-    airports = []
+    airports_by_iata_code = {}
     with open("data/airports.dat") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
             line_count += 1
-            airports.append(Airports(row[0], row[1], row[2], row[3], row[4], row[5], row[6],
-                                     row[7], row[8], row[9], row[10], row[11], row[12]))
-        print(f'Processed {line_count} lines.')
-    return airports
+            airport_detail = Airports(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+                                      row[10],
+                                      row[11], row[12])
+            if airport_detail.iata_code != '\\N':
+                airports_by_iata_code[row[4]] = airport_detail
+    print(f'Processed {line_count} lines.')
+    return airports_by_iata_code

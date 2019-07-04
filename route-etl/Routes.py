@@ -16,7 +16,8 @@ class Routes:
     def __init__(self, airline_code, airline_id,
                  src_apt, src_apt_id, dest_apt,
                  dest_apt_id, code_share, num_stops,
-                 equip_code):
+                 equip_code, distance_in_km, price):
+        self.distance_in_km = distance_in_km
         self.airline_code = airline_code
         self.airline_id = airline_id
         self.src_apt = src_apt
@@ -26,6 +27,7 @@ class Routes:
         self.code_share = code_share
         self.num_stops = num_stops
         self.equip_code = equip_code
+        self.price = price
 
     def __str__(self):
         return "airline_code: {0}, " \
@@ -36,7 +38,9 @@ class Routes:
                "dest_airport_id: {5}, " \
                "num_stops: {6}, " \
                "code_share: {7}, " \
-               "equip_code: {8}".format(
+               "equip_code: {8}, " \
+               "distance_in_km: {9}, " \
+               "price: {10}".format(
             self.airline_code,
             self.airline_id,
             self.src_apt,
@@ -46,7 +50,8 @@ class Routes:
             self.num_stops,
             self.code_share,
             self.equip_code,
-        )
+            self.distance_in_km,
+            self.price)
 
 
 def parse_routes():
@@ -56,7 +61,7 @@ def parse_routes():
         line_count = 0
         for row in csv_reader:
             line_count += 1
-            routes.append(Routes(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+            routes.append(Routes(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], 1.0, 2.0))
         print(f'Processed {line_count} lines.')
-    #print(*routes, sep='\n')
+    # print(*routes, sep='\n')
     return routes
