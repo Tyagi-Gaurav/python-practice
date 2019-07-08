@@ -17,13 +17,15 @@ class Plane:
 
 
 def parse_planes():
-    planes = []
+    planes_by_iata_code = {}
     with open("data/planes.dat") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
             line_count += 1
-            planes.append(Plane(row[0], row[1], row[2]))
+            plane = Plane(row[0], row[1], row[2])
+            if plane.iata_code != '\\N':
+                planes_by_iata_code[plane.iata_code] = plane
         print(f'Processed {line_count} lines.')
-    #print(*planes, sep='\n')
-    return planes
+    # print(*planes, sep='\n')
+    return planes_by_iata_code

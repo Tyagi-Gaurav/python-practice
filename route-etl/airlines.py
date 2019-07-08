@@ -43,13 +43,16 @@ class Airlines:
 
 
 def parse_airlines():
-    airlines = []
+    airlines = {}
     with open("data/airlines.dat") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
             line_count += 1
-            airlines.append(Airlines(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
+            airline = Airlines(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+            if airline.iata_code != '\\N':
+                airlines[row[2]] = airline
+
         print(f'Processed {line_count} lines.')
     #print(*airlines, sep='\n')
     return airlines
