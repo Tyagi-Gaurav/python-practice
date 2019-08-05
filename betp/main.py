@@ -1,4 +1,5 @@
 import csv
+import htmlparser
 
 
 class Match:
@@ -12,11 +13,12 @@ class Match:
 
 
 class Odds:
-    def __init__(self, company, home=0, draw=0, away=0):
+    def __init__(self, company, home=0, draw=0, away=0, win=0):
         self.company = company
         self.home = home
         self.draw = draw
         self.away = away
+        self.win = win
 
     def __str__(self):
         return "company: {0}, home: {1}, draw: {2}, away: {3}" \
@@ -46,10 +48,13 @@ def process_row(row, match_data):
 
         if cell[1] == 'H':
             data.home = row[i]
-        if cell[1] == 'D':
+        elif cell[1] == 'D':
             data.draw = row[i]
-        if cell[1] == 'A':
+        elif cell[1] == 'A':
             data.away = row[i]
+        else:
+            data.win = row[i]
+
         i = i + 1
 
 
@@ -83,16 +88,22 @@ def find_quote(home, draw, away, limit):
         minimum_stake = h + d + a
     return -1, -1, -1
 
+
 def main():
     limit = 100
+
+    #Parse URL
+    content = htmlparser.parse('http://www.oddschecker.com/football/english/fa-cup/winner')
+    print(content)
+
     # Read Data
-    match_data = read_rows()
+    #match_data = read_rows()
 
     # Get combinations for each match
     
 
     # For each combination calculate candidate quotes
-    print(find_quote(1.125, 8.5, 21, limit))
+    #print(find_quote(1.125, 8.5, 21, limit))
 
     # Sort candidate quotes by
 

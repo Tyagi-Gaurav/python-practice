@@ -85,7 +85,7 @@ def query(db, query, table):
 
 
 def main():
-    client = MongoClient("mongodb+srv://m220student:m220password@mflix-hnyn8.mongodb.net")
+    client = MongoClient("mongodb+srv://m22move ri0student:m220password@mflix-hnyn8.mongodb.net")
     db = client.airdata
 
     planes = parse_planes()
