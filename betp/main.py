@@ -1,5 +1,9 @@
 import csv
 import htmlparser
+from events import Odd
+from events import Event
+from events import Events
+from odds_calculator import *
 
 
 class Match:
@@ -92,17 +96,15 @@ def find_quote(home, draw, away, limit):
 def main():
     limit = 100
 
-    #Parse URL
+    # Parse URL
     content = htmlparser.parse('http://www.oddschecker.com/football/english/fa-cup/winner')
-    print(content)
 
-    # Read Data
-    #match_data = read_rows()
+    # Get combinations for each match and put them into a file.
+    comb = CombinatorialExplosion()
+    combinations = comb.find_matching_odds(content)
 
-    # Get combinations for each match
-    
-
-    # For each combination calculate candidate quotes
+    print("Total combinations: ", len(combinations))
+    # For each combination in file calculate candidate quotes and put them in another file.
     #print(find_quote(1.125, 8.5, 21, limit))
 
     # Sort candidate quotes by
