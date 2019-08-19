@@ -18,13 +18,14 @@ class ROI:
 
 def majority_positive(arr, total):
     neg_count = len(list(filter(lambda x: (x < 0), arr)))
+
     if neg_count == 0 or neg_count < total / 2:
         return True
     else:
         return False
 
 
-def analyze(odds, wagers, no_of_buckets):
+def analyze(odds, wagers, no_of_buckets, total_wager):
     output = []
     print("Wagers: ", len(wagers))
     print("Odds: ", len(odds))
@@ -32,7 +33,8 @@ def analyze(odds, wagers, no_of_buckets):
         for odd in odds:
             prod = []
             for j in range(0, len(odd)):
-                prod += [float(wager[j] * float(odd[j].f_odd))]
+                return_value = float(wager[j] * float(odd[j].f_odd))
+                prod += [((return_value - total_wager)/total_wager) * 100]
 
             if majority_positive(prod, no_of_buckets):
                 # print ((wager, prod)#)
