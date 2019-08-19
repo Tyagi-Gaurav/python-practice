@@ -60,15 +60,15 @@ def parse(uri):
     # print(teams)
     events_list = []
 
-    whitelist = ["Man City", "Liverpool", "Tottenham", "Chelsea", "Man Utd", "Arsenal", "Everton"]
+    black_list = []
 
     for team in teams:
         print(team)
-        if team in whitelist:
+        if team not in black_list:
             odds_list = []
             for i in range(len(betting_companies)):
                 # if teams[team][i] != '0.0':
-                odds_list.append(Odd(betting_companies[i], teams[team][i]))
+                odds_list.append(Odd(betting_companies[i], teams[team][i], team))
             events_list.append(Event(team, odds_list))
 
     print("Number of betting companies: ", len(betting_companies))

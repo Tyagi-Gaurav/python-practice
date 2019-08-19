@@ -28,15 +28,21 @@ class Event:
 
 
 class Odd:
-    def __init__(self, name, f_odd):
+    def __init__(self, name, f_odd, event_name, risk_allowed=False):
         self.name = name
         self.f_odd = f_odd
+        self.event_name = event_name
+        self.risk_allowed = risk_allowed
 
     def __str__(self):
         return "name: {0},  " \
-               "odd: {1}, ".format(
+               "odd: {1}, " \
+               "event name: {2} " \
+               "risk_allowed".format(
             self.name,
-            self.f_odd
+            self.f_odd,
+            self.event_name,
+            self.risk_allowed
         )
 
     def __repr__(self):
