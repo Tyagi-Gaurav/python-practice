@@ -1,0 +1,3 @@
+- [ ] Not all generated wagers x odds have to be stored. They can be stored in top 10 order.
+- [ ] When getting wagers, just get the top 10 wagers, sorted by A, B or C. 
+- [x] Establish a minimum wage

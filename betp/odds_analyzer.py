@@ -23,7 +23,7 @@ class ROI:
 def majority_positive(arr, total):
     neg_count = len(list(filter(lambda x: (x < 0), arr)))
 
-    if neg_count == 0 or neg_count < total / 2:
+    if neg_count == 0: #or neg_count < total / 2:
         return True
     else:
         return False
@@ -33,20 +33,23 @@ def analyze(odds, wagers, no_of_buckets, total_wager):
     output = []
     print("Wagers: ", len(wagers))
     print("Odds: ", len(odds))
-    step_size = 5
+    step_size = 50
     with ThreadPoolExecutor() as executor:
         future_to_num = {
             executor.submit(zip_wagers_to_odds, odds, wagers, no_of_buckets, total_wager, j, j + step_size): j for j in
-            range(0, len(wagers), 5)}
+            range(0, len(wagers), step_size)}
         print("Number of Jobs submitted: ", len(future_to_num))
         count = 0
         for future in concurrent.futures.as_completed(future_to_num):
             num = future_to_num[future]
             try:
                 result = future.result()
-                output += result
                 count = count + 1
-                print("Output Received: ", count, len(result))
+                if len(result) > 0:
+                    output += result
+                    print("Output Received: ", count, len(result))
+                else:
+                    print(".")
             except Exception as exc:
                 print('%r generated an exception: %s' % (num, exc))
             # else:
@@ -72,21 +75,22 @@ def zip_wagers_to_odds(odds, wagers, no_of_buckets, total_wager, a, b):
     return output
 
 
-def get_odd_values(num, no_of_buckets):
+def get_odd_values(min_wager, max_wager, no_of_buckets):
     if no_of_buckets >= 2:
-        return generate_wagers(num, no_of_buckets, [])
+        return generate_wagers(min_wager, max_wager, no_of_buckets, [])
     else:
         return []
 
 
-def generate_wagers(num, no_of_buckets, current):
+def generate_wagers(min_wager, max_wager, no_of_buckets, current):
     output = []
-    for i in range(1, num):
+    for i in range(1, max_wager):
         if no_of_buckets == 1:
-            if sum(current) + i == num:
+            current_sum = sum(current) + i
+            if current_sum >= min_wager and current_sum == max_wager:
                 output.append(current + [i])
         else:
-            output += generate_wagers(num, no_of_buckets - 1, current + [i])
+            output += generate_wagers(min_wager, max_wager, no_of_buckets - 1, current + [i])
 
     return output
 
