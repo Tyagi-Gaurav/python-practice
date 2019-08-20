@@ -1,3 +1,6 @@
 - [ ] Not all generated wagers x odds have to be stored. They can be stored in top 10 order.
+- [ ] Analyze and determine the kind of odds that would be profitable.
+- [ ] Add support for adding risk to particular type of odd, example: Odds of just win and lose.   
+- [ ] Add support for adding risk to particular type of odd. Example: Acceptable Risk.
 - [ ] When getting wagers, just get the top 10 wagers, sorted by A, B or C. 
 - [x] Establish a minimum wage

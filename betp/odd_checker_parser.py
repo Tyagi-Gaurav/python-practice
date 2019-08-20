@@ -48,7 +48,7 @@ class MyHTMLParser(HTMLParser):
         pass
 
 
-def parse(uri):
+def parse(uri, black_list):
     req = urllib.request.Request(uri, headers={'User-Agent': 'Mozilla/5.0'})
     response = urllib.request.urlopen(req)
     content = response.read().decode('utf-8')
@@ -60,7 +60,10 @@ def parse(uri):
     # print(teams)
     events_list = []
 
-    black_list = []
+
+
+    print("Number of teams:", len(teams))
+    print("Teams Blacklisted:", black_list)
 
     for team in teams:
         print(team)
@@ -72,12 +75,5 @@ def parse(uri):
             events_list.append(Event(team, odds_list))
 
     print("Number of betting companies: ", len(betting_companies))
-    print("Number of teams:", len(teams))
     print("Number of events:", len(events_list))
-    # mult = 1
-    # for event in events_list:
-    #     print("Length of each event:", len(event.odds))
-    #     mult = mult * len(event.odds)
-    # print("Total combinations", mult)
-    # print("Total time required", mult / (100000 * 20 * 60))
     return Events(events_list)

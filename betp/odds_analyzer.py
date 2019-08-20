@@ -3,17 +3,18 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 class ROI:
-    def __init__(self, wager, odd, roi_array):
+    def __init__(self, wager, odd, roi_array, returns):
         self.wager = wager
-        self.__roi_value = 0.0
         self.odd = odd
         self.roi_array = roi_array
+        self.returns = returns
 
     def __str__(self):
-        return "wager: {0}, " \
-               "roi_array: {1}," \
-               "odd: {2}".format(
-            self.wager, self.roi_array, self.odd
+        return "wager: {0}, \n" \
+               "odd: {1}\n" \
+               "returns: {2},\n" \
+               "roi_array: {3}".format(
+            self.wager, self.odd, self.returns, self.roi_array
         )
 
     def __repr__(self):
@@ -23,7 +24,7 @@ class ROI:
 def majority_positive(arr, total):
     neg_count = len(list(filter(lambda x: (x < 0), arr)))
 
-    if neg_count == 0: #or neg_count < total / 2:
+    if neg_count == 0 or neg_count < total / 2:
         return True
     else:
         return False
@@ -46,8 +47,9 @@ def analyze(odds, wagers, no_of_buckets, total_wager):
                 result = future.result()
                 count = count + 1
                 if len(result) > 0:
-                    output += result
-                    print("Output Received: ", count, len(result))
+                    sorted_result = sorted(result, key=lambda deal: min(deal.roi_array), reverse=True)[:10]
+                    output += sorted_result
+                    print("Output Received: ", count, len(sorted_result))
                 else:
                     print(".")
             except Exception as exc:
@@ -65,13 +67,15 @@ def zip_wagers_to_odds(odds, wagers, no_of_buckets, total_wager, a, b):
             wager = wagers[i]
             for odd in odds:
                 prod = []
+                returns = []
                 for j in range(0, len(odd)):
                     return_value = float(wager[j] * float(odd[j].f_odd))
+                    returns += [return_value]
                     prod += [((return_value - total_wager) / total_wager) * 100]
 
                 if majority_positive(prod, no_of_buckets):
                     # print ((wager, prod)#)
-                    output += [ROI(wager, odd, prod)]
+                    output += [ROI(wager, odd, prod, returns)]
     return output
 
 
