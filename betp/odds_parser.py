@@ -5,7 +5,7 @@ from events import Event
 from events import Events
 
 
-class MyHTMLParser(HTMLParser):
+class MyOddsParser(HTMLParser):
     def __init__(self, output=None, team=None):
         HTMLParser.__init__(self)
         if team is None:
@@ -52,7 +52,7 @@ def parse(uri, black_list):
     req = urllib.request.Request(uri, headers={'User-Agent': 'Mozilla/5.0'})
     response = urllib.request.urlopen(req)
     content = response.read().decode('utf-8')
-    parser = MyHTMLParser()
+    parser = MyOddsParser()
     parser.feed(content)
     betting_companies = parser.output
     teams = parser.team
@@ -60,18 +60,18 @@ def parse(uri, black_list):
     # print(teams)
     events_list = []
 
-    print("Number of teams:", len(teams))
-    print("Teams Blacklisted:", black_list)
+    # print("Number of teams:", len(teams))
+    # print("Teams Blacklisted:", black_list)
 
     for team in teams:
         if team not in black_list:
-            print("Team: ", team)
+            print("Team: ", team, end=" ")
             odds_list = []
             for i in range(len(betting_companies)):
                 # if teams[team][i] != '0.0':
                 odds_list.append(Odd(betting_companies[i], teams[team][i], team))
             events_list.append(Event(team, odds_list))
 
-    print("Number of betting companies: ", len(betting_companies))
-    print("Number of events:", len(events_list))
+    # print("Number of betting companies: ", len(betting_companies))
+    # print("Number of events:", len(events_list))
     return Events(events_list)

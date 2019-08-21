@@ -22,18 +22,17 @@ class ROI:
 
 
 def is_eligible(arr, total, risk):
-    neg_count = len(list(filter(lambda x: (x < 0), arr)))
+    for i in range(0, total):
+        if arr[i] + risk[i] < 0:
+            return False
 
-    if neg_count == 0 or neg_count < total / 2:
-        return True
-    else:
-        return False
+    return True
 
 
 def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
     output = []
-    print("Wagers: ", len(wagers))
-    print("Odds: ", len(odds))
+    # print("Wagers: ", len(wagers))
+    # print("Odds: ", len(odds))
     step_size = 50
 
     if no_of_buckets != len(risk):
@@ -42,7 +41,8 @@ def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
 
     with ThreadPoolExecutor() as executor:
         future_to_num = {
-            executor.submit(zip_wagers_to_odds, odds, wagers, no_of_buckets, total_wager, j, j + step_size, risk): j for j in
+            executor.submit(zip_wagers_to_odds, odds, wagers, no_of_buckets, total_wager, j, j + step_size, risk): j for
+            j in
             range(0, len(wagers), step_size)}
         print("Number of Jobs submitted: ", len(future_to_num))
         count = 0
@@ -54,14 +54,13 @@ def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
                 if len(result) > 0:
                     sorted_result = sorted(result, key=lambda deal: min(deal.roi_array), reverse=True)[:topx]
                     output += sorted_result
-                    print("Output Received: ", count, len(sorted_result))
+                    # print("Output Received: ", count, len(sorted_result))
+                    print("#", end="")
                 else:
-                    print(".")
+                    print(".", end="")
             except Exception as exc:
                 print('%r generated an exception: %s' % (num, exc))
-            # else:
-            # print('%r page is %d ' % (num, len(result)))
-            # print(result)
+                print("")
     return output
 
 
@@ -103,37 +102,3 @@ def generate_wagers(min_wager, max_wager, no_of_buckets, current):
             output += generate_wagers(min_wager, max_wager, no_of_buckets - 1, current + [i])
 
     return output
-
-
-def some_action(num, a):
-    output = []
-    print(num, a)
-    for j in range(0, num):
-        output += [num * 2]
-    return output
-
-
-def check_parallel():
-    output = []
-    with ThreadPoolExecutor() as executor:
-        future_to_num = {executor.submit(some_action, j, j + 4): j for j in range(1, 50, 5)}
-        for future in concurrent.futures.as_completed(future_to_num):
-            num = future_to_num[future]
-            try:
-                result = future.result()
-                output += result
-            except Exception as exc:
-                print('%r generated an exception: %s' % (num, exc))
-            else:
-                print('%r page is %d ' % (num, len(result)))
-                print(result)
-    print(output)
-
-
-def main():
-    # print(get_odd_values(100, 3))
-    check_parallel()
-
-
-if __name__ == '__main__':
-    main()

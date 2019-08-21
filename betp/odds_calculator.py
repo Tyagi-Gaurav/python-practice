@@ -52,7 +52,7 @@ class CombinatorialExplosion:
         pattern = self.__file_prefix + "*"
         # print ("Looking for files to delete with pattern: ", pattern)
         fileList = glob.glob(pattern)
-        print("Found files to delete: ", fileList)
+        # print("Found files to delete: ", fileList)
         for filePath in fileList:
             try:
                 # print("Removing file ", filePath)
@@ -62,11 +62,11 @@ class CombinatorialExplosion:
 
     def find_matching_odds(self, data):
         self.__clear_directory()
-        print("Start Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+        # print("Start Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
         index = [0] * len(data.events)  # Initialized index array
         index_bit = 0
         self.__find_combinations_internal(0, index, data.events, index_bit)
-        print("End Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+        # print("End Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
         # self.__find_potential_deals()
         # self.__determine_odds()
         return self.__data

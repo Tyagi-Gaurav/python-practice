@@ -1,12 +1,18 @@
-import odd_checker_parser
+import odds_parser
+import football_parser
 from odds_calculator import *
+import sys
+import time
+import datetime
 
 
 def start(min_wager=1, max_wager=500, url="", blacklisted=[], topx=1, risk=[]):
+    print("Running with min_wager = %d, max_wager=%d, blacklisted=%s, topx=%d, risk=%s" %
+          (min_wager, max_wager, blacklisted, topx, risk))
     try:
         # Parse URL
         # content = htmlparser.parse('http://www.oddschecker.com/football/english/fa-cup/winner')
-        content = odd_checker_parser.parse(url, blacklisted)
+        content = odds_parser.parse(url, blacklisted)
         # print(content)
 
         # Get combinations for each match and put them into a file.
@@ -26,15 +32,25 @@ def start(min_wager=1, max_wager=500, url="", blacklisted=[], topx=1, risk=[]):
 
 
 def main():
-    sorted_deals = start(max_wager=50,
-                         url='https://www.oddschecker.com/football/europa-league/fc-astana-v-bate-borisov/winner',
-                         blacklisted=[],
-                         topx=1,
-                         risk=[0.0, 0.0, 0.0])
+    # st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y_%M_%D_%H_%M_%S')
+    # sys.stdout = open("/tmp/report_" + st, 'w')
+    match_list = []
+    match_list = football_parser.get_all_matches("/football")
 
-    if sorted_deals:
-        print(*sorted_deals, sep="\n")
+    for match in match_list:
+        print("\nChecking match..." + match)
+        print("Start Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+        sorted_deals = start(max_wager=50,
+                             url=match,
+                             blacklisted=[],
+                             topx=1,
+                             risk=[0.0, 5.0, 0.0])
 
+        if sorted_deals:
+            print(*sorted_deals, sep="\n")
+        else:
+            print("No Odds Found")
+        print("End Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
 
 if __name__ == '__main__':
     main()
