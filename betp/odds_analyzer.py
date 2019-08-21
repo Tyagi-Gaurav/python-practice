@@ -21,7 +21,7 @@ class ROI:
         return self.__str__()
 
 
-def majority_positive(arr, total):
+def is_eligible(arr, total, risk):
     neg_count = len(list(filter(lambda x: (x < 0), arr)))
 
     if neg_count == 0 or neg_count < total / 2:
@@ -30,14 +30,19 @@ def majority_positive(arr, total):
         return False
 
 
-def analyze(odds, wagers, no_of_buckets, total_wager):
+def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
     output = []
     print("Wagers: ", len(wagers))
     print("Odds: ", len(odds))
     step_size = 50
+
+    if no_of_buckets != len(risk):
+        raise Exception(
+            "Length of risk indicators: %d should be same as no_of_buckets: %d" % (len(risk), no_of_buckets))
+
     with ThreadPoolExecutor() as executor:
         future_to_num = {
-            executor.submit(zip_wagers_to_odds, odds, wagers, no_of_buckets, total_wager, j, j + step_size): j for j in
+            executor.submit(zip_wagers_to_odds, odds, wagers, no_of_buckets, total_wager, j, j + step_size, risk): j for j in
             range(0, len(wagers), step_size)}
         print("Number of Jobs submitted: ", len(future_to_num))
         count = 0
@@ -47,7 +52,7 @@ def analyze(odds, wagers, no_of_buckets, total_wager):
                 result = future.result()
                 count = count + 1
                 if len(result) > 0:
-                    sorted_result = sorted(result, key=lambda deal: min(deal.roi_array), reverse=True)[:10]
+                    sorted_result = sorted(result, key=lambda deal: min(deal.roi_array), reverse=True)[:topx]
                     output += sorted_result
                     print("Output Received: ", count, len(sorted_result))
                 else:
@@ -60,7 +65,7 @@ def analyze(odds, wagers, no_of_buckets, total_wager):
     return output
 
 
-def zip_wagers_to_odds(odds, wagers, no_of_buckets, total_wager, a, b):
+def zip_wagers_to_odds(odds, wagers, no_of_buckets, total_wager, a, b, risk=[]):
     output = []
     for i in range(a, b):
         if i < len(wagers):
@@ -71,15 +76,16 @@ def zip_wagers_to_odds(odds, wagers, no_of_buckets, total_wager, a, b):
                 for j in range(0, len(odd)):
                     return_value = float(wager[j] * float(odd[j].f_odd))
                     returns += [return_value]
-                    prod += [((return_value - total_wager) / total_wager) * 100]
+                    roi_in_percentage = ((return_value - total_wager) / total_wager) * 100
+                    prod += [roi_in_percentage]
 
-                if majority_positive(prod, no_of_buckets):
+                if is_eligible(prod, no_of_buckets, risk):
                     # print ((wager, prod)#)
                     output += [ROI(wager, odd, prod, returns)]
     return output
 
 
-def get_odd_values(min_wager, max_wager, no_of_buckets):
+def get_wagers(min_wager, max_wager, no_of_buckets):
     if no_of_buckets >= 2:
         return generate_wagers(min_wager, max_wager, no_of_buckets, [])
     else:

@@ -28,7 +28,7 @@ class Event:
 
 
 class Odd:
-    def __init__(self, name, f_odd, event_name, risk_allowed=False):
+    def __init__(self, name, f_odd, event_name, risk_allowed=0.0):
         self.name = name
         self.f_odd = f_odd
         self.event_name = event_name
@@ -38,7 +38,7 @@ class Odd:
         return "name: {0},  " \
                "odd: {1}, " \
                "event name: {2} " \
-               "risk_allowed".format(
+               "risk_allowed {3}".format(
             self.name,
             self.f_odd,
             self.event_name,

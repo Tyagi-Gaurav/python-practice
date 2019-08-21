@@ -60,14 +60,12 @@ def parse(uri, black_list):
     # print(teams)
     events_list = []
 
-
-
     print("Number of teams:", len(teams))
     print("Teams Blacklisted:", black_list)
 
     for team in teams:
-        print(team)
         if team not in black_list:
+            print("Team: ", team)
             odds_list = []
             for i in range(len(betting_companies)):
                 # if teams[team][i] != '0.0':
