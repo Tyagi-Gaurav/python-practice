@@ -35,7 +35,10 @@ def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
     # print("Wagers: ", len(wagers))
     # print("Odds: ", len(odds))
     thread_group_size = multiprocessing.cpu_count()
-    step_size = len(wagers) // thread_group_size
+    if len(wagers) > thread_group_size:
+        step_size = len(wagers) // thread_group_size
+    else:
+        step_size = len(wagers)
 
     if no_of_buckets != len(risk):
         raise Exception(

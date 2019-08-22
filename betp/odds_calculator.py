@@ -37,7 +37,7 @@ class CombinatorialExplosion:
             self.__total = self.__total + 1
             if self.__total % self.__file_record_limit == 0:
                 st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-                print(st + " : " + str(self.__total))
+                # print(st + " : " + str(self.__total))
                 self.__append_to_file()
             return
 
@@ -66,24 +66,7 @@ class CombinatorialExplosion:
         index = [0] * len(data.events)  # Initialized index array
         index_bit = 0
         self.__find_combinations_internal(0, index, data.events, index_bit)
-        # print("End Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
-        # self.__find_potential_deals()
-        # self.__determine_odds()
         return self.__data
-
-    def __determine_odds(self):
-        for i in range(self.__file_counter):
-            file_name = self.__file_prefix + str(i)
-            print("Reading file name", file_name)
-            file = open(file_name, 'rb')
-            events = pickle.load(file)
-            print(events)
-            print("Number of events", len(events))
-
-    def __find_potential_deals(self):
-        for event in self.__data:
-            print("Analyzing data: ", event)
-            analyze(event)
 
 
 def main():

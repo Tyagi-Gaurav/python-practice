@@ -2,7 +2,7 @@ import datetime
 import time
 import traceback
 
-import football_parser
+import normal_match_parser
 import odds_parser
 from odds_calculator import *
 
@@ -10,18 +10,17 @@ from odds_calculator import *
 def start(min_wager, max_wager, wagers2, wagers3, url="", blacklisted=[], topx=1, risk=[]):
     try:
         # Parse URL
-        # content = htmlparser.parse('http://www.oddschecker.com/football/english/fa-cup/winner')
         content = odds_parser.parse(url, blacklisted)
-        # print(content)
-
         # Get combinations for each match and put them into a file.
         comb = CombinatorialExplosion()
         combinations = comb.find_matching_odds(content)
 
         if len(combinations) > 0:
             no_of_buckets = len(combinations[0])
-            wagers = []
-            if no_of_buckets == 2:
+            wagers = [max_wager]
+            if no_of_buckets == 1:
+                risk = [0.0]
+            elif no_of_buckets == 2:
                 wagers = wagers2
                 risk = [0.0, 0.0]
             else:
@@ -37,11 +36,13 @@ def start(min_wager, max_wager, wagers2, wagers3, url="", blacklisted=[], topx=1
 
 
 def main():
-    # match_list = ["https://www.oddschecker.com/football/europa-league/fc-astana-v-bate-borisov/draw-no-bet"]
-    # match_list = football_parser.get_all_matches("/football")
-    match_list = football_parser.get_all_matches("/american-football")
-    # match_list = football_parser.get_all_matches("/basketball")
-    # match_list = football_parser.get_all_matches("/baseball")
+    # match_list = ["http://www.oddschecker.com/football/english/premier-league/aston-villa-v-everton/winner"]
+    # match_list = normal_match_parser.get_all_matches("/football")
+    # match_list = normal_match_parser.get_all_matches("/american-football")
+    # match_list = normal_match_parser.get_all_matches("/basketball")
+    # match_list = normal_match_parser.get_all_matches("/baseball")
+    # match_list = normal_match_parser.get_all_matches("/cricket")
+    # match_list = normal_match_parser.get_all_matches("/badminton")
 
     print("Number of matches", len(match_list))
 

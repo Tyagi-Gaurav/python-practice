@@ -1,5 +1,5 @@
-- [ ] After running, produce a single summary of recommendations. 
-- [ ] Not all generated wagers x odds have to be stored. They can be stored in top 10 order.
+- [ ] Transform the output recommendations into a CSV file.
+- [ ] Can we also parse the time of match?
 - [ ] Analyze and determine the kind of odds that would be profitable. 
 
 - [x] Parse odds checker football page, get all the odds and run them through to generate a daily report.
@@ -9,3 +9,4 @@
 - [x] When getting wagers, just get the top 10 wagers, sorted by A, B or C.
 - [x] Generate wagers once
 - [x] Remove risk allowed from odds
+- [x] After running, produce a single summary of recommendations.

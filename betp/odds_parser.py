@@ -35,8 +35,14 @@ class MyOddsParser(HTMLParser):
             contains_odds = any(attr[0] == 'class' and 'bc bs o' in attr[1] for attr in attrs)
             contains_blank = any(attr[0] == 'class' and 'np o' in attr[1] for attr in attrs)
             if contains_odds:
-                odds = [attr for attr in attrs if attr[0] == 'data-fodds']
-                self.team[self.current_team].append(odds[0][1])
+                odds = [attr for attr in attrs if attr[0] == 'data-o']
+                num, denom = 1, 1
+                try:
+                    num, denom = odds[0][1].split('/')
+                except ValueError:
+                    num = odds[0][1]
+
+                self.team[self.current_team].append(1.0 + float(num) / float(denom))
             elif contains_blank:
                 self.team[self.current_team].append('0.0')
 
