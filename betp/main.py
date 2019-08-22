@@ -6,7 +6,7 @@ import time
 import datetime
 
 
-def start(min_wager=1, max_wager=500, url="", blacklisted=[], topx=1, risk=[]):
+def start(min_wager, max_wager, wagers2, wagers3, url="", blacklisted=[], topx=1, risk=[]):
     print("Running with min_wager = %d, max_wager=%d, blacklisted=%s, topx=%d, risk=%s" %
           (min_wager, max_wager, blacklisted, topx, risk))
     try:
@@ -22,7 +22,12 @@ def start(min_wager=1, max_wager=500, url="", blacklisted=[], topx=1, risk=[]):
         print("Total combinations: ", len(combinations))
         if len(combinations) > 0:
             no_of_buckets = len(combinations[0])
-            wagers = get_wagers(min_wager, max_wager, no_of_buckets)
+            wagers = []
+            if no_of_buckets == 2:
+                wagers = wagers2
+            else:
+                wagers = wagers3
+
             output = analyze(combinations, wagers, no_of_buckets, max_wager, 10, risk)
             # print(len(output))
             # sorted_deals = sorted(output, key=lambda deal: sum(deal.roi_array) / len(deal.roi_array), reverse=True)
@@ -34,13 +39,26 @@ def start(min_wager=1, max_wager=500, url="", blacklisted=[], topx=1, risk=[]):
 def main():
     # st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y_%M_%D_%H_%M_%S')
     # sys.stdout = open("/tmp/report_" + st, 'w')
-    match_list = []
-    match_list = football_parser.get_all_matches("/football")
+    match_list = ["http://www.oddschecker.com/football/europa-league/az-alkmaar-v-antwerp/winner",
+                  "http://www.oddschecker.com/football/english/premier-league/brighton-v-southampton/winner",
+                  "http://www.oddschecker.com/football/english/premier-league/sheffield-utd-v-leicester/winner",
+                  "http://www.oddschecker.com/football/english/championship/derby-v-west-brom/winner",
+                  "http://www.oddschecker.com/football/english/championship/huddersfield-v-reading/winner",
+                  "http://www.oddschecker.com/football/english/championship/preston-v-sheffield-wednesday/winner"]
+    # match_list = football_parser.get_all_matches("/football")
+
+    print("Number of matches", len(match_list))
+
+    min_wager = 100
+    max_wager = 200
+    wagers2 = []  # get_wagers(min_wager, max_wager, 2)
+    wagers3 = get_wagers(min_wager, max_wager, 3)
 
     for match in match_list:
         print("\nChecking match..." + match)
         print("Start Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
-        sorted_deals = start(max_wager=50,
+        sorted_deals = start(min_wager, max_wager, wagers2,
+                             wagers3,
                              url=match,
                              blacklisted=[],
                              topx=1,
@@ -51,6 +69,7 @@ def main():
         else:
             print("No Odds Found")
         print("End Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+
 
 if __name__ == '__main__':
     main()
