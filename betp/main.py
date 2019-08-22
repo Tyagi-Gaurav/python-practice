@@ -1,14 +1,13 @@
-import odds_parser
-import football_parser
-from odds_calculator import *
-import sys
-import time
 import datetime
+import time
+import traceback
+
+import football_parser
+import odds_parser
+from odds_calculator import *
 
 
 def start(min_wager, max_wager, wagers2, wagers3, url="", blacklisted=[], topx=1, risk=[]):
-    print("Running with min_wager = %d, max_wager=%d, blacklisted=%s, topx=%d, risk=%s" %
-          (min_wager, max_wager, blacklisted, topx, risk))
     try:
         # Parse URL
         # content = htmlparser.parse('http://www.oddschecker.com/football/english/fa-cup/winner')
@@ -34,38 +33,52 @@ def start(min_wager, max_wager, wagers2, wagers3, url="", blacklisted=[], topx=1
             return sorted(output, key=lambda deal: min(deal.roi_array), reverse=True)[:topx]
     except Exception as exc:
         print("Error Occurred: ", exc)
+        traceback.print_exc()
 
 
 def main():
-    # st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y_%M_%D_%H_%M_%S')
-    # sys.stdout = open("/tmp/report_" + st, 'w')
-    match_list = ["https://www.oddschecker.com/football/europa-league/fc-astana-v-bate-borisov/draw-no-bet"]
-    # match_list = football_parser.get_all_matches("/football#draw-no-bet")
+    # match_list = ["https://www.oddschecker.com/football/europa-league/fc-astana-v-bate-borisov/draw-no-bet"]
+    # match_list = football_parser.get_all_matches("/football")
+    match_list = football_parser.get_all_matches("/american-football")
+    # match_list = football_parser.get_all_matches("/basketball")
+    # match_list = football_parser.get_all_matches("/baseball")
 
     print("Number of matches", len(match_list))
 
-    min_wager = 900
-    max_wager = 1000
+    min_wager = 1
+    max_wager = 10
+    blacklisted = []
+    topx = 1
+    risk = [0.0, 5.0, 0.0]
     wagers2 = get_wagers(min_wager, max_wager, 2)
-    wagers3 = [] # get_wagers(min_wager, max_wager, 3)
+    wagers3 = get_wagers(min_wager, max_wager, 3)
+
+    print("Start Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+    print("Running with min_wager = %d, max_wager=%d, blacklisted=%s, topx=%d, risk=%s" %
+          (min_wager, max_wager, blacklisted, topx, risk))
+
+    matched_deals = []
 
     for match in match_list:
         print("\nChecking match..." + match)
-        print("Start Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+
         sorted_deals = start(min_wager,
                              max_wager,
                              wagers2,
                              wagers3,
                              url=match,
-                             blacklisted=[],
-                             topx=1,
-                             risk=[0.0, 5.0, 0.0])
+                             blacklisted=blacklisted,
+                             topx=topx,
+                             risk=risk)
 
         if sorted_deals:
-            print(*sorted_deals, sep="\n")
-        else:
-            print("No Odds Found")
-        print("End Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+            matched_deals += sorted_deals
+
+    print("End Time: ", datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+    print("###############################################################################")
+    print("######################### Final Output ########################################")
+    print("###############################################################################")
+    print(*matched_deals, sep="\n\n")
 
 
 if __name__ == '__main__':

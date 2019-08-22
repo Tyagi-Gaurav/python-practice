@@ -46,7 +46,7 @@ def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
             executor.submit(zip_wagers_to_odds, odds, wagers, no_of_buckets, total_wager, j, j + step_size, risk): j for
             j in
             range(0, len(wagers), step_size)}
-        print("Number of Jobs submitted: ", len(future_to_num))
+        #        print("Number of Jobs submitted: ", len(future_to_num))
         count = 0
         for future in concurrent.futures.as_completed(future_to_num):
             num = future_to_num[future]
@@ -57,9 +57,9 @@ def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
                     sorted_result = sorted(result, key=lambda deal: min(deal.roi_array), reverse=True)[:topx]
                     output += sorted_result
                     # print("Output Received: ", count, len(sorted_result))
-                    print("#", end="")
-                else:
-                    print(".", end="")
+                    # print("#", end="")
+                # else:
+                #     print(".", end="")
             except Exception as exc:
                 print('%r generated an exception: %s' % (num, exc))
     print("")
