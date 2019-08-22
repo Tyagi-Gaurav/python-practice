@@ -1,4 +1,4 @@
-- [ ] Remove risk allowed from odds
+- [ ] After running, produce a single summary of recommendations. 
 - [ ] Not all generated wagers x odds have to be stored. They can be stored in top 10 order.
 - [ ] Analyze and determine the kind of odds that would be profitable. 
 
@@ -8,3 +8,4 @@
 - [x] Create a separate function to generate report, should be moved outside the main method.
 - [x] When getting wagers, just get the top 10 wagers, sorted by A, B or C.
 - [x] Generate wagers once
+- [x] Remove risk allowed from odds

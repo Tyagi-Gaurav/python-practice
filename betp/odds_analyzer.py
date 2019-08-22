@@ -1,5 +1,6 @@
 import concurrent.futures
 from concurrent.futures import ThreadPoolExecutor
+import multiprocessing
 
 
 class ROI:
@@ -33,7 +34,8 @@ def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
     output = []
     # print("Wagers: ", len(wagers))
     # print("Odds: ", len(odds))
-    step_size = 50
+    thread_group_size = multiprocessing.cpu_count()
+    step_size = len(wagers) // thread_group_size
 
     if no_of_buckets != len(risk):
         raise Exception(
@@ -60,7 +62,7 @@ def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
                     print(".", end="")
             except Exception as exc:
                 print('%r generated an exception: %s' % (num, exc))
-                print("")
+    print("")
     return output
 
 

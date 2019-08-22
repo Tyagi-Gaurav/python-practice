@@ -65,7 +65,7 @@ def parse(uri, black_list):
 
     for team in teams:
         if team not in black_list:
-            print("Team: ", team, end=" ")
+            print("Team Found: ", team, end=";")
             odds_list = []
             for i in range(len(betting_companies)):
                 # if teams[team][i] != '0.0':
