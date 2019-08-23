@@ -1,4 +1,14 @@
 - [ ] Given odds, calculate wager
+- [ ] Add half time football market to the list
+- [ ] Can we get upcoming matches information from somewhere?
+- [ ] How does horce racing work? What do we need to do to capture those odds?
+- [ ] Write unit tests for odds_parser
+- [ ] Write unit tests for normal_match_parser
+- [ ] Write unit tests for odds_analyzer
+- [ ] Write unit tests for odds_calculator
+- [ ] Write unit tests for main
+- [ ] Explore python virtual environments - What can we do? 
+- [ ] Write functional tests for checking odds. 
 - [ ] Round fractions to 2 decimal places
 - [ ] Can we also parse the time of match?
 - [ ] Transform the output recommendations into a CSV file.
