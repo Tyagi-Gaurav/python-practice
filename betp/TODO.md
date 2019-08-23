@@ -1,5 +1,8 @@
-- [ ] Transform the output recommendations into a CSV file.
+- [ ] Given odds, calculate wager
+- [ ] Round fractions to 2 decimal places
 - [ ] Can we also parse the time of match?
+- [ ] Transform the output recommendations into a CSV file.
+- [ ] Be able to run all sports in a single go and generate single CSV for illustration.
 - [ ] Analyze and determine the kind of odds that would be profitable. 
 
 - [x] Parse odds checker football page, get all the odds and run them through to generate a daily report.

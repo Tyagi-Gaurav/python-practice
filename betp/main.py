@@ -36,7 +36,7 @@ def start(min_wager, max_wager, wagers2, wagers3, url="", blacklisted=[], topx=1
 
 
 def main():
-    # match_list = ["http://www.oddschecker.com/football/english/premier-league/aston-villa-v-everton/winner"]
+    match_list = ["https://www.oddschecker.com/american-football/college-football/toledo-at-kentucky/winner"]
     # match_list = normal_match_parser.get_all_matches("/football")
     # match_list = normal_match_parser.get_all_matches("/american-football")
     # match_list = normal_match_parser.get_all_matches("/basketball")
