@@ -1,7 +1,16 @@
-- [ ] Given odds, calculate wager
+- [ ] Round fractions to 2 decimal places
+- [ ] Can we also parse the time of match?
+- [ ] Investigate if instead of scraping, can we use an API that provides us all the data
+      for all matches. 
 - [ ] Add half time football market to the list
-- [ ] Can we get upcoming matches information from somewhere?
-- [ ] How does horce racing work? What do we need to do to capture those odds?
+    - [ ] Add support for analyzing more than 3 teams 
+    - [ ] Add support for dynamic risk profiling
+        - [ ] No risk
+        - [ ] Least risky option
+- [ ] Given odds, calculate wager
+- [ ] Single wager gives error.
+
+- [ ] Capture Horse Racing Odds
 - [ ] Write unit tests for odds_parser
 - [ ] Write unit tests for normal_match_parser
 - [ ] Write unit tests for odds_analyzer
@@ -9,11 +18,10 @@
 - [ ] Write unit tests for main
 - [ ] Explore python virtual environments - What can we do? 
 - [ ] Write functional tests for checking odds. 
-- [ ] Round fractions to 2 decimal places
-- [ ] Can we also parse the time of match?
 - [ ] Transform the output recommendations into a CSV file.
 - [ ] Be able to run all sports in a single go and generate single CSV for illustration.
 - [ ] Analyze and determine the kind of odds that would be profitable. 
+- [ ] Can we get upcoming matches information from somewhere?
 
 - [x] Parse odds checker football page, get all the odds and run them through to generate a daily report.
 - [x] Add support for adding risk to particular type of odd, example: Percentage of risk tolerance

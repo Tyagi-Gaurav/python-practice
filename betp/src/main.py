@@ -7,7 +7,7 @@ import odds_parser
 from odds_calculator import *
 
 
-def start(min_wager, max_wager, wagers2, wagers3, url="", blacklisted=[], topx=1, risk=[]):
+def start(max_wager, wagers2, wagers3, url="", blacklisted=[], topx=1, risk=[]):
     try:
         # Parse URL
         content = odds_parser.parse(url, blacklisted)
@@ -36,8 +36,8 @@ def start(min_wager, max_wager, wagers2, wagers3, url="", blacklisted=[], topx=1
 
 
 def main():
-    match_list = ["https://www.oddschecker.com/american-football/college-football/toledo-at-kentucky/winner"]
-    # match_list = normal_match_parser.get_all_matches("/football")
+    # match_list = ["https://www.oddschecker.com/american-football/college-football/toledo-at-kentucky/winner"]
+    match_list = normal_match_parser.get_all_matches("/football")
     # match_list = normal_match_parser.get_all_matches("/american-football")
     # match_list = normal_match_parser.get_all_matches("/basketball")
     # match_list = normal_match_parser.get_all_matches("/baseball")
@@ -61,10 +61,9 @@ def main():
     matched_deals = []
 
     for match in match_list:
-        print("\nChecking match..." + match)
+        # print("\nChecking match..." + match)
 
-        sorted_deals = start(min_wager,
-                             max_wager,
+        sorted_deals = start(max_wager,
                              wagers2,
                              wagers3,
                              url=match,
