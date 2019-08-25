@@ -42,7 +42,7 @@ class MyOddsParser(HTMLParser):
                 except ValueError:
                     num = odds[0][1]
 
-                self.team[self.current_team].append(1.0 + float(num) / float(denom))
+                self.team[self.current_team].append(round(1.0 + float(num) / float(denom), 2))
             elif contains_blank:
                 self.team[self.current_team].append('0.0')
 
