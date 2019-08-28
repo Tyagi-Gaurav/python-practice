@@ -3,7 +3,6 @@ import glob
 import os
 import pickle
 import time
-from odds_analyzer import *
 
 
 class CombinatorialExplosion:

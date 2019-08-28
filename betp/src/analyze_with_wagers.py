@@ -71,6 +71,7 @@ def analyze(odds, wagers, no_of_buckets, total_wager, topx=10, risk=[]):
 
 def zip_wagers_to_odds(odds, wagers, no_of_buckets, total_wager, a, b, risk=[]):
     output = []
+    # print(*odds, sep="\n\n")
     for i in range(a, b):
         if i < len(wagers):
             wager = wagers[i]

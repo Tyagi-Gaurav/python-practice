@@ -1,9 +1,14 @@
+Next
+====
+- [ ] Create producer consumer POC (With tests)
+- [ ] Make combination generator a producer and odds calculator/analyzer as consumer.
+- [ ] Have wagers ready for different bucket types. (Upto 20 buckets)  
+- [ ] Single wager gives error.
+- [ ] Explore Math SMT tool to solve linear inequalities
+
 Quick Changes
 =============
-- [ ] Round fractions to 2 decimal places
-- [ ] Analyse all markets quickly
 - [ ] Can we also parse the time of match?
-- [ ] Single wager gives error.
 - [ ] Write unit tests for odds_parser
 - [ ] Write unit tests for normal_match_parser
 - [ ] Write unit tests for odds_analyzer
@@ -14,6 +19,9 @@ Quick Changes
 
 Research
 ========
+- [ ] Analyse all markets quickly
+    - [ ] Can we evaluate combinations faster
+    - [ ] Do we need to evaluate combinations at all? 
 - [ ] Investigate if instead of scraping, can we use an API that provides us all the data
       for all matches. 
 - [ ] Add support for analyzing more than 3 teams 
@@ -35,6 +43,7 @@ Other Tasks
 
 Done
 ====
+- [x] Round fractions to 2 decimal places
 - [x] Parse odds checker football page, get all the odds and run them through to generate a daily report.
 - [x] Add support for adding risk to particular type of odd, example: Percentage of risk tolerance
 - [x] Establish a minimum wage
@@ -43,3 +52,4 @@ Done
 - [x] Generate wagers once
 - [x] Remove risk allowed from odds
 - [x] After running, produce a single summary of recommendations.
+- [x] Delete code for first approach

@@ -31,6 +31,8 @@ class MyOddsParser(HTMLParser):
                 team_name = [attr for attr in attrs if attr[0] == 'data-bname']
                 self.team[team_name[0][1]] = []
                 self.current_team = team_name[0][1]
+        elif tag == 'div':
+            contains_match_details = any(attr[0] == 'match-details' in attr[1] for attr in attrs)
         elif tag == 'td':
             contains_odds = any(attr[0] == 'class' and 'bc bs o' in attr[1] for attr in attrs)
             contains_blank = any(attr[0] == 'class' and 'np o' in attr[1] for attr in attrs)
@@ -54,7 +56,7 @@ class MyOddsParser(HTMLParser):
         pass
 
 
-def parse(uri, black_list):
+def parse(uri, hat_list, hat_list_flag):
     req = urllib.request.Request(uri, headers={'User-Agent': 'Mozilla/5.0'})
     response = urllib.request.urlopen(req)
     content = response.read().decode('utf-8')
@@ -70,13 +72,19 @@ def parse(uri, black_list):
     # print("Teams Blacklisted:", black_list)
 
     for team in teams:
-        if team not in black_list:
-            # print("Team Found: ", team, end=";")
-            odds_list = []
-            for i in range(len(betting_companies)):
-                # if teams[team][i] != '0.0':
-                odds_list.append(Odd(betting_companies[i], teams[team][i], team))
-            events_list.append(Event(team, odds_list))
+        current_team = None
+        if hat_list_flag == 1 and team in hat_list:
+            current_team = team
+        elif hat_list_flag == 0 and team not in hat_list:
+            current_team = team
+        else:
+            continue
+        # print("Team Found: ", team, end=";")
+        odds_list = []
+        for i in range(len(betting_companies)):
+            # if teams[team][i] != '0.0':
+            odds_list.append(Odd(betting_companies[i], teams[current_team][i], current_team))
+        events_list.append(Event(current_team, odds_list))
 
     # print("Number of betting companies: ", len(betting_companies))
     # print("Number of events:", len(events_list))

@@ -14,6 +14,7 @@ class Events:
 class Event:
     def __init__(self, event_name, odds):
         self.event_name = event_name
+        self.__meta_data = {}
         self.odds = odds
 
     def __str__(self):
@@ -22,6 +23,12 @@ class Event:
             self.event_name,
             self.odds
         )
+
+    def add_meta_data(self, key, value):
+        self.__meta_data[key] = value
+
+    def get_meta_data(self, key):
+        return self.__meta_data[key]
 
     def __repr__(self):
         return self.__str__()
