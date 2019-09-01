@@ -59,9 +59,26 @@ def start2(min_expected_return,
         traceback.print_exc()
 
 
+def to_html_table(deal):
+    table_start = "<table>"
+    headers_list = []
+    for i in range(0, len(deal.odds)):
+        headers_list.append("<td>" + deal.odd[i].event_name + "</td>")
+    table_end = "</table>"
+    return table_start + ''.join(headers_list) + table_end
+
+
+def formatter(matched_deals):
+    tables = []
+    for deal in matched_deals:
+        tables.append(to_html_table(deal))
+    return ''.join(tables)
+
+
 def main():
     # match_list = [
-    #     "http://www.oddschecker.com/american-football/cfl/edmonton-eskimos-at-calgary-stampeders/winner"]
+    #     "http://www.oddschecker.com/handball/denmark/mens-danish-division-1/odder-handbold-v-otterup-hk/winner"
+    # ]
     # match_list = normal_match_parser.get_all_matches("/football")
     match_list = normal_match_parser.get_all_matches("/football/english/premier-league")
     # match_list = normal_match_parser.get_all_matches("/american-football")
@@ -69,7 +86,8 @@ def main():
     # match_list = normal_match_parser.get_all_matches("/baseball")
     # match_list = normal_match_parser.get_all_matches("/cricket")
     # match_list = normal_match_parser.get_all_matches("/badminton")
-
+    # match_list = normal_match_parser.get_all_matches("/handball")
+    # match_list = normal_match_parser.get_all_matches("/rugby-league")
     print("Number of matches", len(match_list))
 
     min_wager = 1
@@ -79,7 +97,7 @@ def main():
     hat_list = []
     hat_list_flag = 0  # 1 - Whitelist, 0 - blacklist
     topx = 1
-    risk = [0.0, 5.0, 0.0]
+    risk = [0.0, 0.0, 0.0]
     wagers2 = get_wagers(min_wager, max_wager, 2)
     wagers3 = get_wagers(min_wager, max_wager, 3)
 
@@ -115,6 +133,8 @@ def main():
     print("######################### Final Output ########################################")
     print("###############################################################################")
     print(*matched_deals, sep="\n\n")
+    # if matched_deals:
+    #     print(formatter(matched_deals))
 
 
 def log(message, deals):

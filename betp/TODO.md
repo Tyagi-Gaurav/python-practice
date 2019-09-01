@@ -2,6 +2,9 @@ Next
 ====
 - [ ] Create producer consumer POC (With tests)
 - [ ] Make combination generator a producer and odds calculator/analyzer as consumer.
+- [ ] Make report for each wager found
+- [ ] For each result print the category and time of match
+- [ ] Be able to run all prospective categories together
 - [ ] Have wagers ready for different bucket types. (Upto 20 buckets)  
 - [ ] Single wager gives error.
 - [ ] Explore Math SMT tool to solve linear inequalities
