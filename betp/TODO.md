@@ -1,12 +1,17 @@
 Next
 ====
+- [ ] Change reporting format to html and tables for each line.
+- [ ] Single wager gives error.
+- [ ] Accumulate matches that could not be analyzed and present them as a list.
+- [ ] Be able to cover over/under bets on a page.
+- [ ] Given odds, calculate wager
+
 - [ ] Create producer consumer POC (With tests)
 - [ ] Make combination generator a producer and odds calculator/analyzer as consumer.
 - [ ] Make report for each wager found
 - [ ] For each result print the category and time of match
 - [ ] Be able to run all prospective categories together
 - [ ] Have wagers ready for different bucket types. (Upto 20 buckets)  
-- [ ] Single wager gives error.
 - [ ] Explore Math SMT tool to solve linear inequalities
 
 Quick Changes
@@ -31,7 +36,6 @@ Research
     - [ ] Add support for dynamic risk profiling
         - [ ] No risk
         - [ ] Least risky option
-- [ ] Given odds, calculate wager
 - [ ] Analyze and determine the kind of odds that would be profitable. 
 - [ ] Can we get upcoming matches information from somewhere?
 - [ ] CLI for the tool.
