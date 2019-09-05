@@ -1,26 +1,34 @@
 row_start = "<tr>"
 row_end = "</tr>"
+table_start = "<table class=\"tg\">"
+table_end = "</table>"
+container_end = "</div>"
 
 
 def __to_html(deal):
-    table_start = "<table class=\"tg\">"
-    headers_list = [row_start]
+    container_start = "<div class=\"container\">"
+
+    sub_container_1 = "<div class=\"floatLeft\">" + ''.join(__left_odds_table(deal)) + container_end
+    sub_container_2 = "<div class=\"floatRight\">" + ''.join(__left_odds_table(deal)) + container_end
+
+    return container_start + sub_container_1 + sub_container_2 + container_end
+
+
+def __left_odds_table(deal):
+    headers_list = [table_start, row_start]
     __add_table_header(headers_list)
     for i in range(0, len(deal.odd)):
         headers_list.append("<th class=\"tg-0lax\">" + deal.odd[i].event_name + "</th>")
     headers_list.append(row_end)
-
     headers_list.append(row_start)
     __add_table_header(headers_list, "Odds")
     for i in range(0, len(deal.odd)):
         headers_list.append("<th class=\"tg-0lax\">" + str(deal.odd[i].f_odd) + "</th>")
     headers_list.append(row_end)
-
     __add_generic_row(headers_list, "Returns", deal.returns)
     __add_generic_row(headers_list, "Roi", deal.roi_array)
-
-    table_end = "</table>"
-    return table_start + ''.join(headers_list) + table_end
+    headers_list.append(table_end)
+    return headers_list
 
 
 def __add_generic_row(headers_list, heading, arr):
@@ -37,10 +45,15 @@ def __add_table_header(headers_list, header=""):
 
 def __css():
     return "<style type=\"text/css\"> \
-                .tg  {border-collapse:collapse;border-spacing:0;} \
-                .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;} \
-                .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;} \
+                .tg  {border-collapse:collapse;border-spacing:0;margin: 10px;} \
+                .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px \
+                5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;} \
+                .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px " \
+           "5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;} \
                 .tg .tg-0lax{text-align:left;vertical-align:top} \
+                .floatLeft {width: 50%; float: left; } \
+                .floatRight {width: 50 %;float: right;} \
+                .container {overflow: hidden;} \
             </style>"
 
 
