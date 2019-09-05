@@ -7,6 +7,7 @@ import odds_parser
 from analyze_with_odds import *
 from analyze_with_wagers import *
 from odds_calculator import *
+from html_reporter import *
 
 
 def start(max_wager, wagers2, wagers3, url="", hat_list=[], hat_list_flag=0, topx=1, risk=[]):
@@ -33,34 +34,20 @@ def start(max_wager, wagers2, wagers3, url="", hat_list=[], hat_list_flag=0, top
         return sorted(output, key=lambda deal: min(deal.roi_array), reverse=True)[:topx]
 
 
-def to_html_table(deal):
-    table_start = "<table>"
-    headers_list = []
-    for i in range(0, len(deal.odds)):
-        headers_list.append("<td>" + deal.odd[i].event_name + "</td>")
-    table_end = "</table>"
-    return table_start + ''.join(headers_list) + table_end
-
-
-def formatter(matched_deals):
-    tables = []
-    for deal in matched_deals:
-        tables.append(to_html_table(deal))
-    return ''.join(tables)
-
-
 def main():
-    match_list = ["https://www.oddschecker.com/politics/brexit/no-deal-brexit"] \
-                 + normal_match_parser.get_all_matches("/football") \
-                 + normal_match_parser.get_all_matches("/football/english/premier-league") \
-                 + normal_match_parser.get_all_matches("/american-football") \
-                 + normal_match_parser.get_all_matches("/basketball") \
-                 + normal_match_parser.get_all_matches("/baseball") \
-                 + normal_match_parser.get_all_matches("/cricket") \
-                 + normal_match_parser.get_all_matches("/badminton") \
-                 + normal_match_parser.get_all_matches("/handball") \
-                 + normal_match_parser.get_all_matches("/rugby-league") \
-                 + normal_match_parser.get_all_matches("/tennis")
+    # match_list = ["https://www.oddschecker.com/politics/brexit/no-deal-brexit"] \
+    #              + normal_match_parser.get_all_matches("/baseball")
+    # + normal_match_parser.get_all_matches("/football") \
+    # + normal_match_parser.get_all_matches("/football/english/premier-league") \
+    # + normal_match_parser.get_all_matches("/american-football") \
+    # + normal_match_parser.get_all_matches("/basketball") \
+    # + normal_match_parser.get_all_matches("/cricket") \
+    # + normal_match_parser.get_all_matches("/badminton") \
+    # + normal_match_parser.get_all_matches("/handball") \
+    # + normal_match_parser.get_all_matches("/rugby-league") \
+    # + normal_match_parser.get_all_matches("/tennis")
+
+    match_list = ["http://www.oddschecker.com/baseball/mlb/philadelphia-phillies-at-cincinnati-reds/winner"]
 
     print("Number of matches", len(match_list))
 
@@ -113,8 +100,11 @@ def main():
     print("######################### Final Output ########################################")
     print("###############################################################################")
     print(*matched_deals, sep="\n\n")
-    # if matched_deals:
-    #     print(formatter(matched_deals))
+    if matched_deals:
+        file1 = open("/Users/gauravt/Downloads/test.html", "w")
+        file1.write(formatter(matched_deals))
+        file1.close()
+        # print()
     print("###############################################################################")
     print("######################### Error Matches #######################################")
     print("###############################################################################")

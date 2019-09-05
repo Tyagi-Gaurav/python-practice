@@ -1,10 +1,10 @@
 Next
 ====
 - [ ] Change reporting format to html and tables for each line.
-- [ ] Single wager gives error.
-- [ ] Accumulate matches that could not be analyzed and present them as a list.
-- [ ] Be able to cover over/under bets on a page.
 - [ ] Given odds, calculate wager
+- [ ] Single wager gives error.
+- [ ] Be able to cover over/under bets on a page.
+- [!] Accumulate matches that could not be analyzed and present them as a list.
 
 - [ ] Create producer consumer POC (With tests)
 - [ ] Make combination generator a producer and odds calculator/analyzer as consumer.
