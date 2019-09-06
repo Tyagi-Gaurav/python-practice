@@ -41,15 +41,13 @@ def main():
     #              + normal_match_parser.get_all_matches("/football/english/premier-league") \
     #              + normal_match_parser.get_all_matches("/american-football") \
     #              + normal_match_parser.get_all_matches("/basketball") \
-        # + normal_match_parser.get_all_matches("/cricket") \
-    # + normal_match_parser.get_all_matches("/badminton") \
-    # + normal_match_parser.get_all_matches("/handball") \
-    # + normal_match_parser.get_all_matches("/rugby-league") \
-    # + normal_match_parser.get_all_matches("/tennis")
+    #              + normal_match_parser.get_all_matches("/cricket") \
+    #              + normal_match_parser.get_all_matches("/badminton") \
+    #              + normal_match_parser.get_all_matches("/handball") \
+    #              + normal_match_parser.get_all_matches("/rugby-league") \
+    #              + normal_match_parser.get_all_matches("/tennis")
 
-    match_list = ["http://www.oddschecker.com/baseball/mlb/philadelphia-phillies-at-cincinnati-reds/winner",
-                  "http://www.oddschecker.com/football/cambodia-v-hong-kong/winner",
-                  "http://www.oddschecker.com/american-football/college-football/arkansas-at-mississippi/winner"]
+    match_list = ["http://www.oddschecker.com/american-football/college-football/wake-forest-at-rice/winner"]
 
     print("Number of matches", len(match_list))
 
