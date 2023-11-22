@@ -12,6 +12,7 @@
 * `people[-1]` #Negative index is used in python to index starting from the last element of the list
 
 * Creating virtual environment: `virtualenv -p $( which python3 ) .lpvenv`
+    -> or `python3 -m venv myenv`
 
 * Activate Virtual Environment: `source .lpenv/bin/activate`
 
