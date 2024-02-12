@@ -34,3 +34,18 @@
     * `s[:]` - Get a copy of the String
     * `s[2:14:3]` - Slicing from 2nd character, upto 14th and step 3
     * `s[::-1]` - Reverse a string
+
+# Sequence to make Snake Game
+* BandGenerator
+* Add digits of a number - Using string --> DataType conversion
+* Number of weeks left assuming you live till 90
+* Odd or even number
+* Leap Year checks
+* Print Array
+* Sum of elements in Array
+* Average of elements in Array
+* for loops and range function
+* while loops
+* writing simple function
+* Factorial
+* Reeborgs code
