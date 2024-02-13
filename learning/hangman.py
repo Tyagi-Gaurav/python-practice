@@ -97,6 +97,7 @@ while not end_of_game:
         else:
             print ("You guessed " + guess + ", that's not in the word. You lose a life.") #Draw hangman
             number_of_lives -=1
+            print (number_of_lives)
             if number_of_lives == 1:
                 end_of_game = True
                 print ("You lose!. The word was " + chosen_word)
