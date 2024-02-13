@@ -49,3 +49,7 @@
 * writing simple function
 * Factorial
 * Reeborgs code
+* Looping in dictionary example to store bids and find highest bidder.
+* Given a month, find days in a month
+* Calculator - Simple
+
