@@ -48,14 +48,16 @@
 * While loops
 * writing simple function
 * Factorial
-* Reeborgs code
 * Looping in dictionary example to store bids and find highest bidder.
 * Given a month, find days in a month
 * Calculator - Simple
 * Blackjack
-* Scope - Locla v Global
+* Scope - Local v Global
     * There is no Block Scope in Pythin
     * How to modify Global variable
 * Number guessing game
-* 
+* Higher & Lower
 
+# References
+* Python Tutor
+* Reeborgs code

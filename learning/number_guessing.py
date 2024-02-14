@@ -32,10 +32,13 @@ print("Welcome to the Number Guessing Game!")
 print("I am thinking of a number between 1 and 100.")
 difficulty = input("Choose a difficulty. Type 'easy' or 'hard': ")
 
+EASY_LEVEL_TURNS = 10
+HARD_LEVEL_TURNS = 5
+
 if difficulty == "hard":
-    attempts = 5
+    attempts = HARD_LEVEL_TURNS
 else:
-    attempts = 10
+    attempts = EASY_LEVEL_TURNS
 
 print(f"You have {attempts} attemts remaining to guess the number.")    
 
