@@ -36,6 +36,7 @@
     * `s[::-1]` - Reverse a string
 
 # Sequence to make Snake Game
+* Install PyCharm
 * BandGenerator
 * Add digits of a number - Using string --> DataType conversion
 * Number of weeks left assuming you live till 90
@@ -57,6 +58,7 @@
     * How to modify Global variable
 * Number guessing game
 * Higher & Lower
+* Coffe Machine
 
 # References
 * Python Tutor

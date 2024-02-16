@@ -9,7 +9,7 @@ keep_going = True
 max = 0
 winner = ""
 while keep_going:
-    print(art.logo)
+    print(art.auction_logo)
     print("Welcome to the secret auction program. ")
     name = input("What is your name?:")
     bid = int(input("What's your bid?: $"))
