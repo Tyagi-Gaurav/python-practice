@@ -35,7 +35,10 @@
     * `s[2:14:3]` - Slicing from 2nd character, upto 14th and step 3
     * `s[::-1]` - Reverse a string
 
-# Sequence to make Snake Game
+* PyPi (Python package index)
+  * 
+
+# Sequence to make Snake Game and/or anything else
 * Install PyCharm
 * BandGenerator
 * Add digits of a number - Using string --> DataType conversion
@@ -59,6 +62,7 @@
 * Number guessing game
 * Higher & Lower
 * Coffe Machine
+* Coffee Machine OOP
 
 # References
 * Python Tutor
