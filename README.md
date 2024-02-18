@@ -41,7 +41,6 @@
 # Sequence to make Snake Game and/or anything else
 * Install PyCharm
 * BandGenerator
-* Add digits of a number - Using string --> DataType conversion
 * Number of weeks left assuming you live till 90
 * Odd or even number
 * Leap Year checks
@@ -50,6 +49,7 @@
 * Average of elements in Array
 * for loops and range function
 * While loops
+* Add digits of a number - Using string --> DataType conversion
 * writing simple function
 * Factorial
 * Looping in dictionary example to store bids and find highest bidder.
@@ -63,6 +63,7 @@
 * Higher & Lower
 * Coffe Machine
 * Coffee Machine OOP
+* Quiz Game (OpenTDB)
 
 # References
 * Python Tutor
