@@ -87,6 +87,5 @@ def spirograph(turtle):
 # random_walk(my_turtle)
 # spirograph(my_turtle)
 
-
 screen = t.Screen()
 screen.exitonclick()
