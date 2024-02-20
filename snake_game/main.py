@@ -24,14 +24,14 @@ screen.onkey(snake.move_right, "Right")
 game_is_on = True
 while game_is_on:
     screen.update()
-    time.sleep(0.2)
+    time.sleep(0.1)
     snake.move()
 
     if snake.head.distance(food) < 15:
         food.refresh()
         scoreboard.increase()
         snake.increase_length()
-    elif snake.is_close_to_wall():
+    elif snake.hit_any_obstacle():
         game_is_on = False
         text = Turtle()
         text.color("white")
