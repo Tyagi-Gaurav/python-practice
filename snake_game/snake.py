@@ -84,10 +84,8 @@ class Snake:
         self.segments.append(new_seg)
 
     def _hitting_itself(self):
-        for segment in self.segments:
-            if segment == self.head:
-                pass
-            elif self.head.distance(segment) < 10:
+        for segment in self.segments[1:]:
+            if self.head.distance(segment) < 10:
                 return True
 
         return False
