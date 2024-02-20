@@ -1,5 +1,5 @@
 import time
-from turtle import Screen
+from turtle import Screen, Turtle
 from snake import Snake
 from food import Food
 from score import ScoreBoard
@@ -30,5 +30,14 @@ while game_is_on:
     if snake.head.distance(food) < 15:
         food.refresh()
         scoreboard.increase()
+        snake.increase_length()
+    elif snake.is_close_to_wall():
+        game_is_on = False
+        text = Turtle()
+        text.color("white")
+        text.hideturtle()
+        text.penup()
+        text.write(f"Game Over!", align="center", font=('Arial', 24, 'normal'))
+
 
 screen.exitonclick()
