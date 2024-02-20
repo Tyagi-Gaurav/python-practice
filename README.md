@@ -64,6 +64,7 @@
 * Coffe Machine
 * Coffee Machine OOP
 * Quiz Game (OpenTDB)
+* Inheritance
 
 # References
 * Python Tutor
