@@ -24,6 +24,7 @@ def random_color():
 
     return r, g, b
 
+
 class Snake:
     def __init__(self):
         self.X_MOVE_DIRECTION = 20
