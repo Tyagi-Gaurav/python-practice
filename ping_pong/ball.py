@@ -7,18 +7,17 @@ class Ball(Turtle):
         super().__init__()
         self.color("white")
         self.shape("circle")
-        self.setheading(100)
+        # self.setheading(10)
         self.penup()
-        self.increment = 20
+        self.increment_x = 20
+        self.increment_y = 20
 
     def move(self):
-        self.forward(self.increment)
-        if self.ycor() >= 370:  # Hitting the top wall
-            self.setheading(180 - self.heading())
-            self.increment = -20
-        elif self.ycor() <= -370:  # Hitting the bottom wall
-            self.setheading(180 - self.__to_quadrant_angle())
-            self.increment = 20
+        self.goto(self.xcor() + self.increment_x, self.ycor() + self.increment_y)
+        if self.ycor() >= 370 or self.ycor() <= -370:  # Hitting the wall
+            self.bounce_y()
+            # self.setheading(180 - self.__to_quadrant_angle())
+            # self.increment = -1 * self.increment
 
     def __to_quadrant_angle(self):
         angle = self.heading()
@@ -28,3 +27,9 @@ class Ball(Turtle):
             return 360 - angle
         else:
             return angle
+
+    def bounce_y(self):
+        self.increment_y = -1 * self.increment_y
+
+    def bounce_x(self):
+        self.increment_x = -1 * self.increment_x

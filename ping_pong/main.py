@@ -10,20 +10,25 @@ screen.bgcolor("black")
 screen.title("Ping Pong")
 screen.tracer(0)
 
-left_paddle = Paddle(550, 0)
-right_paddle = Paddle(-550, 0)
+left_paddle = Paddle(-550, 0)
+right_paddle = Paddle(550, 0)
 ball = Ball()
 
 screen.listen()
-screen.onkey(left_paddle.move_up, "Up")
-screen.onkey(left_paddle.move_down, "Down")
-screen.onkey(right_paddle.move_up, "w")
-screen.onkey(right_paddle.move_down, "s")
+screen.onkey(left_paddle.move_up, "w")
+screen.onkey(left_paddle.move_down, "s")
+screen.onkey(right_paddle.move_up, "Up")
+screen.onkey(right_paddle.move_down, "Down")
 
 game_is_on = True
 while game_is_on:
     screen.update()
     time.sleep(0.1)
     ball.move()
+
+    # Detect collision with paddles
+    if (ball.distance(right_paddle) < 50 and ball.xcor() > 520) or (
+            ball.distance(left_paddle) < 50 and ball.xcor() > -550):
+        ball.bounce_x()
 
 screen.exitonclick()
