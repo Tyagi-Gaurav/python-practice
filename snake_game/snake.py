@@ -93,3 +93,9 @@ class Snake:
 
     def hit_any_obstacle(self):
         return self._hitting_itself() or self._is_close_to_wall()
+
+    def reset(self):
+        for seg in self.segments:
+            seg.goto(1000, 1000)
+        self.segments.clear()
+        self.create()

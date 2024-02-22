@@ -32,12 +32,8 @@ while game_is_on:
         scoreboard.increase()
         snake.increase_length()
     elif snake.hit_any_obstacle():
-        game_is_on = False
-        text = Turtle()
-        text.color("white")
-        text.hideturtle()
-        text.penup()
-        text.write(f"Game Over!", align="center", font=('Arial', 24, 'normal'))
+        scoreboard.reset()
+        snake.reset()
 
 
 screen.exitonclick()
