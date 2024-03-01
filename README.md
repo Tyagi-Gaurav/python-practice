@@ -43,15 +43,18 @@
 * BandGenerator
 * (/) Number of weeks left assuming you live till 90
 * (/) Odd or even number
-* Leap Year checks
+* (/) Leap Year checks
     * To be a leap year, the year number must be divisible by four – except for end-of-century years, which must be divisible by 400. This means that the year 2000 was a leap year, although 1900 was not.
-* Print Array
+* (/) Print Array
     * Given an array of numbers, print the numbers to the console.
-* Sum of elements in Array
+* (/) Sum of elements in Array
     * Given an array of numbers, find the sum of all the numbers
-* Average of elements in Array
+* (/) Average of elements in Array
     * Given an array of numbers, find the average of all the numbers
-* for loops and range function
+* For loops and range function
+    * Using for loop to print elements of an array
+    * Using for loop to sum elements of an array
+    * Using for loop to print elements at 
 * While loops
 * Add digits of a number - Using string --> DataType conversion
     * Given a number, add the digits of the number

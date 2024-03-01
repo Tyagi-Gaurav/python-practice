@@ -35,10 +35,7 @@ while len(guessed_states) < 50:
         t.write(answer)
 
 # Write states to learn in a separate CSV
-rem_states = []
-for state in state_data.values.tolist():
-    if state[0] not in guessed_states:
-        rem_states.append(state[0])
+rem_states = [state[0] for state in state_data.values.tolist() if state[0] not in guessed_states]
 
 data_dict = {
     "states": rem_states
