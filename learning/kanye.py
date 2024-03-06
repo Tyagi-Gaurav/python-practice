@@ -1,6 +1,5 @@
 from tkinter import *
 import requests
-import json
 
 
 def get_quote():
