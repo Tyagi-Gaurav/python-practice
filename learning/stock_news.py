@@ -18,7 +18,7 @@ env_var = os.environ
 # When stock price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
 daily_params = {
     "function": "TIME_SERIES_DAILY",
-    "symbol": "TSLA",
+    "symbol": STOCK_NAME,
     "apikey": ""  # os.environ["ALPHAVANTAGE_API_KEY"]
 }
 
