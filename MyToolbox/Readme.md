@@ -1,0 +1,3 @@
+# TODO
+* Network speed checker
+* 
