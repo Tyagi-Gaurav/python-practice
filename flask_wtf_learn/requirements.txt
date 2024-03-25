@@ -1,0 +1,8 @@
+Bootstrap_Flask==2.2.0
+Flask==2.3.2
+WTForms==3.0.1
+Flask_WTF==1.2.1
+Werkzeug==3.0.0
+
+
+# The requirements.txt file is a file where you can specify all the dependencies (the installed packages that your project depends on) and their versions. This means that you can share your project without all the installed packages, making it a lot more lightweight. When someone downloads your project (like you have done here), the requirements.txt file tells their code editor which packages need to be installed.
