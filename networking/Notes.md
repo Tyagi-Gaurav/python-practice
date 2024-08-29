@@ -132,4 +132,4 @@
     * Subnet mask is used to figure out the network & host portion of the IP address
     * Number of hosts in a network
         * 1 address reserved for network itself
-        * 1 for broadcast address
+        * 1 for broadcast address 
