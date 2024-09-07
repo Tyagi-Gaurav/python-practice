@@ -11,6 +11,9 @@
   * The difference between these two, the spread, is the principal transaction cost of trading (outside commissions),
   * The spread may widen significantly if fewer participants place limit orders to buy a 
   security (thus generating fewer bid prices) or if fewer sellers place limit orders to sell.
+* In the context of the foreign exchange market, a pip is a standard unit of measure for changes in an 
+exchange rate, representing a move of 0.0001 (1/10,000)
+* If the currency price we quoted earlier changed from 1.1200 to 1.1205, this would be a change of five pips.
 
 # Spot Trading
 * Involves directly purchasing or selling financial instruments and assets such as cryptocurrencies, forex, stocks, bonds.
@@ -86,7 +89,46 @@
    - **Impact on Global Growth**: The U.S. is a key player in the global economy, and its monetary policy has international repercussions. 
      Rate cuts in the U.S. can boost global economic activity, increasing worldwide oil demand, which in turn can drive up oil prices.
 
-### Caveats:
+# Caveats:
    - **Supply Side Factors**: While interest rate cuts generally support higher oil prices through increased demand and a weaker dollar, 
   supply-side factors, such as production levels set by OPEC or geopolitical disruptions, can counter or reinforce these effects.
 
+# Limit v Stop Order
+* When buying, choose 'Limit' order when you wish to buy below the current price and choose 'Stop' order when you wish to buy 
+  above the current price. 
+* When selling, choose 'Limit' order if you wish to sell above the current price 
+* 'Stop' order if you wish to sell below the current price.
+* Limit
+  * Buying at a favourable price
+* Stop
+  * Buy Stop - Buy when price moves above a certain price
+  * Sell Stop - Sell when price moves below a certain price
+
+# Take Profit v Stop Loss
+  * When buying
+    * Take profit when buying and price moves above a value
+    * Stop Loss when price goes below a certain price
+
+# Market paring
+* Market pare rate cuts refer to a situation where investors, traders, or market analysts reduce their 
+ expectations for future interest rate cuts by central banks. 
+
+* For instance, if the market originally anticipated that a central bank would lower interest rates several times 
+over a certain period but new data or events suggest that fewer cuts will happen, the market adjusts its 
+expectations accordingly. 
+This is often described as "paring back" expectations for rate cuts. It reflects a shift in sentiment where the 
+market foresees a less aggressive monetary policy easing than previously thought.
+
+* Key drivers that can lead to a paring back of rate cut expectations include:
+- Stronger-than-expected economic data (e.g., higher GDP growth or lower unemployment)
+- Rising inflation, which might limit the central bank’s ability to cut rates
+- A change in the central bank's tone or policy stance
+
+* When market participants pare their rate cut expectations, it can affect various asset classes, including bonds, 
+equities, and currencies, as they adjust to the new outlook for interest rates.
+
+
+# Todo
+* Crossover between Moving Average 20 and Moving Average 50
+* Bollinger Band
+  
