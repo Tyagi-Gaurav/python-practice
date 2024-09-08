@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import time
 import pandas as pd
 from pandas.plotting import register_matplotlib_converters
 
@@ -23,15 +24,24 @@ def get_data_from_mt5(from_time, to_time, symbol="EURUSD"):
     return ticks
 
 
-def display_data_frame(ticks):
-    # create DataFrame out of the obtained data
-    ticks_frame = pd.DataFrame(ticks)
+def display_data_frame(ticks_frame):
     # convert time in seconds into the datetime format
     ticks_frame['time'] = pd.to_datetime(ticks_frame['time'], unit='s')
 
     # display data
     print("\nDisplay dataframe with ticks")
     print(ticks_frame.head(10))
+
+
+def save_data_frame_to_csv(ticks, csv_file_name):
+    ticks.to_csv(csv_file_name)
+
+
+def sma(window_size, ticks_frame):
+    ticks_frame[f'SMA{window_size}'] = ticks_frame['bid'].rolling(window_size).mean()
+    # Drop null values
+    ticks_frame.dropna(inplace=True)
+    return ticks_frame
 
 
 def main():
@@ -41,7 +51,12 @@ def main():
     symbol = "EURUSD"
     print(f"Now: {to_time}, From Time: {from_time}, Symbol: {symbol}")
     ticks = get_data_from_mt5(from_time, to_time, symbol)
-    display_data_frame(ticks)
+    ticks_frame = pd.DataFrame(ticks)
+    ticks_frame = ticks_frame.drop(['flags','volume_real','volume','time_msc','last'], axis=1)
+    ticks_frame = sma(20, ticks_frame)
+    ticks_frame = sma(50, ticks_frame)
+    display_data_frame(ticks_frame)
+    save_data_frame_to_csv(ticks_frame, f"data-{str(time.time())}.csv")
 
 
 if __name__ == '__main__':
