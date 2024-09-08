@@ -17,11 +17,14 @@ print(mt5.terminal_info())
 print(mt5.version())
 
 
-def get_data_from_mt5(from_time, to_time, symbol="EURUSD"):
+def get_ticks_range_from_mt5(from_time, to_time, ):
     # Returns time, bid, ask, last, flags
-    ticks = mt5.copy_ticks_range(symbol, from_time, to_time, mt5.COPY_TICKS_ALL)
-    mt5.shutdown()  # TODO execute this before terminating the script
-    return ticks
+    return mt5.copy_ticks_range(symbol, from_time, to_time, mt5.COPY_TICKS_INFO)
+
+
+def get_rates(date_from, symbol="EURUSD", number_of_bars=10):
+    # get 10 EURUSD H4 bars starting from 01.10.2020 in UTC time zone
+    return mt5.copy_rates_from(symbol, mt5.TIMEFRAME_M5, date_from, number_of_bars)
 
 
 def display_data_frame(ticks_frame):
@@ -37,26 +40,27 @@ def save_data_frame_to_csv(ticks, csv_file_name):
     ticks.to_csv(csv_file_name)
 
 
-def sma(window_size, ticks_frame):
-    ticks_frame[f'SMA{window_size}'] = ticks_frame['bid'].rolling(window_size).mean()
+def sma(window_size, ticks_frame, column):
+    ticks_frame[f'SMA{window_size}'] = ticks_frame[column].rolling(window_size).mean()
     # Drop null values
     ticks_frame.dropna(inplace=True)
     return ticks_frame
 
 
 def main():
-    to_time = datetime(2024, 9, 6, 17, 00)
+    to_time = datetime(2024, 9, 6, 23, 40)
     # to_time = datetime.now()
     from_time = to_time - timedelta(minutes=10)
     symbol = "EURUSD"
     print(f"Now: {to_time}, From Time: {from_time}, Symbol: {symbol}")
-    ticks = get_data_from_mt5(from_time, to_time, symbol)
+    ticks = get_rates(from_time, symbol, 120)
     ticks_frame = pd.DataFrame(ticks)
-    ticks_frame = ticks_frame.drop(['flags','volume_real','volume','time_msc','last'], axis=1)
-    ticks_frame = sma(20, ticks_frame)
-    ticks_frame = sma(50, ticks_frame)
-    display_data_frame(ticks_frame)
-    save_data_frame_to_csv(ticks_frame, f"data-{str(time.time())}.csv")
+    ticks_frame = ticks_frame.drop(['spread', 'real_volume', 'tick_volume'], axis=1)
+    ticks_frame_20 = sma(20, ticks_frame, 'close')
+    ticks_frame_50 = sma(50, ticks_frame_20, 'close')
+    display_data_frame(ticks_frame_50)
+    save_data_frame_to_csv(ticks_frame_50, f"data-{str(time.time())}.csv")
+    mt5.shutdown()
 
 
 if __name__ == '__main__':
