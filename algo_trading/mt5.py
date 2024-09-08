@@ -47,6 +47,14 @@ def sma(window_size, ticks_frame, column):
     return ticks_frame
 
 
+def detect_collision(df, colA, colB):
+    df['sma_delta'] = df[colA] - df[colB]
+    row = df[df.sma_delta == df.sma_delta.min()]
+    if round(abs(row['sma_delta'].item()), 4) <= 0.0001:
+        print (f"{colA} going under {colB} at")
+        print (row)
+
+
 def main():
     to_time = datetime(2024, 9, 6, 23, 40)
     # to_time = datetime.now()
@@ -56,10 +64,12 @@ def main():
     ticks = get_rates(from_time, symbol, 120)
     ticks_frame = pd.DataFrame(ticks)
     ticks_frame = ticks_frame.drop(['spread', 'real_volume', 'tick_volume'], axis=1)
-    ticks_frame_20 = sma(20, ticks_frame, 'close')
-    ticks_frame_50 = sma(50, ticks_frame_20, 'close')
-    display_data_frame(ticks_frame_50)
-    save_data_frame_to_csv(ticks_frame_50, f"data-{str(time.time())}.csv")
+    ticks_frame = sma(20, ticks_frame, 'close')
+    ticks_frame = sma(50, ticks_frame, 'close')
+    detect_collision(ticks_frame, 'SMA50', 'SMA20')
+    detect_collision(ticks_frame, 'SMA20', 'SMA50')
+    save_data_frame_to_csv(ticks_frame, f"data-{str(time.time())}.csv")
+    #display_data_frame(ticks_frame)
     mt5.shutdown()
 
 
