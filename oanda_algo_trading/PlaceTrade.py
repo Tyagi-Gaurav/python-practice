@@ -1,11 +1,10 @@
-import pandas as pd
 import tpqoa
 
 api = tpqoa.tpqoa("oanda.cfg")
 
 # Get Historical data
 dataframe = api.get_history(instrument = "EUR_USD", start = "2024-09-01", end = "2024-09-11",
-                granularity = "D", price = "B")
+                granularity = "M5", price = "A")
 
 print (dataframe)
 
