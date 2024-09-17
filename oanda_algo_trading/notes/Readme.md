@@ -109,6 +109,16 @@ exchange rate, representing a move of 0.0001 (1/10,000)
     * Take profit when buying and price moves above a value
     * Stop Loss when price goes below a certain price
 
+# Trading Times
+* Forex: 
+* Oil: 
+
+# Closing Price v Adjusted Price
+While the closing price simply refers to the cost of shares at the end of the day, the adjusted closing price takes 
+dividends, stock splits, and new stock offerings into account. 
+The adjusted closing price is a more accurate indicator of stock value since it starts where the closing price finishes. Adjusted 
+closing price takes into account corporate actions that can affect a stock's price after the market closes.
+
 # Market paring
 * Market pare rate cuts refer to a situation where investors, traders, or market analysts reduce their 
  expectations for future interest rate cuts by central banks. 
@@ -127,12 +137,16 @@ market foresees a less aggressive monetary policy easing than previously thought
 * When market participants pare their rate cut expectations, it can affect various asset classes, including bonds, 
 equities, and currencies, as they adjust to the new outlook for interest rates.
 
-
-# Todo
-* Crossover between Moving Average 20 and Moving Average 50
-* Bollinger Band
-  
 # Strategies
 * SMA 20/50/200
 * ATR - Average True Range
 * ADX - Average Directional Index
+
+# Todo
+* Get historical data
+* SMA - 20 + SMA - 50 + Place trade in python when ready
+* Monitor manually and close where needed
+* Create python thread to monitor trade and check for SMA20 + 50 crossover again in 1 min intervals
+  * Use ATR to determine or terminate trade
+  * or Use last 10 candles to determine consolidation/confusion
+* Bollinger Band
