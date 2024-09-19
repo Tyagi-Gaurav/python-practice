@@ -23,9 +23,9 @@ def get_ticks_range_from_mt5(from_time, to_time, ):
     return mt5.copy_ticks_range(symbol, from_time, to_time, mt5.COPY_TICKS_INFO)
 
 
-def get_rates(date_from, symbol, number_of_bars=10):
+def get_rates(date_from, date_to, symbol, number_of_bars=10):
     # get 10 EURUSD H4 bars starting from 01.10.2020 in UTC time zone
-    return mt5.copy_rates_from(symbol, mt5.TIMEFRAME_M5, date_from, number_of_bars)
+    return mt5.copy_rates_range(symbol, mt5.TIMEFRAME_M5, date_from, date_to)
 
 
 def display_data_frame(ticks_frame):
@@ -34,7 +34,7 @@ def display_data_frame(ticks_frame):
 
     # display data
     print("\nDisplay dataframe with ticks")
-    print(ticks_frame.head(10))
+    print(ticks_frame.tail(1))
 
 
 def save_data_frame_to_csv(ticks, csv_file_name):
@@ -51,7 +51,7 @@ def sma(window_size, ticks_frame, column):
 def detect_collision(df, colA, colB):
     df['sma_delta'] = df[colA] - df[colB]
     row = df[df.sma_delta == df.sma_delta.min()]
-    if round(abs(row['sma_delta'].item()), 4) <= 0.001:
+    if round(abs(row['sma_delta'].item()), 4) <= 0.0001:
         print (f"{colA} going under {colB} at")
         print (row)
         return True
@@ -134,22 +134,17 @@ def place_sell_order(symbol, position_id):
                     print("       traderequest: {}={}".format(tradereq_filed, traderequest_dict[tradereq_filed]))
 
 def main():
-    t_end = time.time() + 60 * 60 #Run for 60 minutes
+    t_end = time.time() + 60 * 60 * 12 #Run for 12 hour
     position_id = -1
     symbol = "XTIUSD"
     while time.time() < t_end:
-        local_now = datetime.now()
         ask_price = mt5.symbol_info_tick(symbol).ask
         bid_price = mt5.symbol_info_tick(symbol).bid
-        print (f"local_now: {local_now}: Buy Price: {ask_price}, Sell Price: {bid_price}")
-
         cyprus_tz = timezone('Asia/Famagusta')
-        local_cyp = datetime.now(cyprus_tz)
-
-        # local_cyp = datetime(2024, 9, 18, 14, 35, 0)
-        # print(f"Cyprus: {local_cyp}\nNow: {local_now}\nFrom: {from_time}\nSymbol: {symbol}")
-        ticks = get_rates(local_now, symbol, 120)
-        # print (ticks)
+        to_local_cyp = datetime.now(cyprus_tz)
+        from_local_cyp = datetime.now(cyprus_tz) - timedelta(hours=6)
+        print(f"From: {from_local_cyp}\nTo: {to_local_cyp}\nSymbol: {symbol}")
+        ticks = get_rates(from_local_cyp, to_local_cyp, symbol)
         ticks_frame = pd.DataFrame(ticks)
         # display_data_frame(ticks_frame)
         ticks_frame = ticks_frame.drop(['spread', 'real_volume', 'tick_volume'], axis=1)
@@ -157,19 +152,21 @@ def main():
         ticks_frame = sma(50, ticks_frame, 'close')
         if detect_collision(ticks_frame, 'SMA50', 'SMA20'):
             print ("Placing Buy order now")
+            print(f"local_now: {local_now}: Buy Price: {ask_price}, Sell Price: {bid_price}")
             #Place Buy trade (If previous then close that)
             position_id = place_buy_order(symbol)
-            pass
         elif detect_collision(ticks_frame, 'SMA20', 'SMA50'):
             #Place Sell Trade (If previous then close that)
             print(f"Placing Sell order now with position_id {position_id}")
+            print(f"local_now: {local_now}: Buy Price: {ask_price}, Sell Price: {bid_price}")
             if position_id != -1:
                 place_sell_order(symbol, position_id)
                 position_id = -1
-            pass
+        else:
+            print (f"{datetime.now()} - No collision detected\n")
         # save_data_frame_to_csv(ticks_frame, f"data-{str(time.time())}.csv")
         # display_data_frame(ticks_frame)
-        time.sleep(5)
+        time.sleep(60)
     mt5.shutdown()
     print ("Program terminated...")
 
