@@ -15,16 +15,9 @@ print(mt5.terminal_info())
 # get data on MetaTrader 5 version
 print(mt5.version())
 
-
-def get_ticks_range_from_mt5(from_time, to_time, ):
-    # Returns time, bid, ask, last, flags
-    return mt5.copy_ticks_range(symbol, from_time, to_time, mt5.COPY_TICKS_INFO)
-
-
-def get_rates(date_from, date_to, symbol, number_of_bars=10):
+def get_rates_using_bars(symbol, number_of_bars=1000):
     # get 10 EURUSD H4 bars starting from 01.10.2020 in UTC time zone
-    return mt5.copy_rates_range(symbol, mt5.TIMEFRAME_M5, date_from, date_to)
-
+    return mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_M5, 0, number_of_bars)
 
 def display_data_frame(ticks_frame):
     # convert time in seconds into the datetime format
