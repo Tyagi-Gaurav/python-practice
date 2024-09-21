@@ -40,7 +40,14 @@ def place_buy_order(symbol):
         return result.order
 
 
-def place_sell_order(symbol, position_id):
+def get_orders(ticket):
+    order_for_ticket = mt5.orders_get(ticket)
+    # order_for_ticket._asdiict().keys()
+
+    # df = pd.DataFrame(list(gbp_orders), columns=gbp_orders[0]._asdict().keys())
+
+
+def place_sell_order(symbol, order_ticket):
     lot = 1.0
     price = mt5.symbol_info_tick(symbol).bid
     deviation = 20
@@ -49,7 +56,7 @@ def place_sell_order(symbol, position_id):
         "symbol": symbol,
         "volume": lot,
         "type": mt5.ORDER_TYPE_SELL,
-        "position": position_id,
+        "position": order_ticket,
         "price": price,
         "deviation": deviation,
         "magic": 234000,
