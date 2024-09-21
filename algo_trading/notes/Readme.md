@@ -88,6 +88,8 @@ exchange rate, representing a move of 0.0001 (1/10,000)
   * **Global Oil Demand:**
    - **Impact on Global Growth**: The U.S. is a key player in the global economy, and its monetary policy has international repercussions. 
      Rate cuts in the U.S. can boost global economic activity, increasing worldwide oil demand, which in turn can drive up oil prices.
+  * Overall economy slowdown -> reduce demand -> Oil reduce
+  * Supply fears affect oil prices more than economy slowdown
 
 # Caveats:
    - **Supply Side Factors**: While interest rate cuts generally support higher oil prices through increased demand and a weaker dollar, 
@@ -141,12 +143,23 @@ equities, and currencies, as they adjust to the new outlook for interest rates.
 * SMA 20/50/200
 * ATR - Average True Range
 * ADX - Average Directional Index
+* When consolidation happens, market is waiting for something. 
+
+# Macro Economy types
+* Hawkish economy
+* Dovish economy
 
 # Todo
-* Get historical data
 * SMA - 20 + SMA - 50 + Place trade in python when ready
 * Monitor manually and close where needed
+* Hawkish economy - What is?
+* Dovish economy - What is ?
+* Consolidation detection
+  * Detect if market is going through consolidation - Use ATR
+  * When SMA20 crosses over SMA50, then check ATR. If ATR is more than a factor then place trade.
+  * Factor of ATR to be determined slowly
 * Create python thread to monitor trade and check for SMA20 + 50 crossover again in 1 min intervals
   * Use ATR to determine or terminate trade
+  * Use ATR as reference to detect how close the averages are to detect consolidation
   * or Use last 10 candles to determine consolidation/confusion
-* Bollinger Band
+* Swiss Index explore

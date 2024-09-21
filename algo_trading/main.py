@@ -1,10 +1,9 @@
 from datetime import datetime, timedelta
-
-from algo_trading.mt5_client import get_rates, display_data_frame
-from algo_trading.sma import sma, detect_crossover
-from algo_trading.trade import place_buy_order, place_sell_order
-from pytz import timezone
 import pandas as pd
+from mt5_client import get_rates, display_data_frame
+from sma import sma, detect_crossover
+from trade import place_buy_order, place_sell_order
+from pytz import timezone
 import time
 import MetaTrader5 as mt5
 
@@ -18,12 +17,12 @@ def main():
         bid_price = mt5.symbol_info_tick(symbol).bid
         cyprus_tz = timezone('Asia/Famagusta')
         to_local_cyp = datetime.now(cyprus_tz)
-        from_local_cyp = datetime.now(cyprus_tz) - timedelta(hours=6)
+        from_local_cyp = datetime.now(cyprus_tz) - timedelta(hours=1)
         print(f"From: {from_local_cyp}\nTo: {to_local_cyp}\nSymbol: {symbol}")
         ticks = get_rates(from_local_cyp, to_local_cyp, symbol)
         ticks_frame = pd.DataFrame(ticks)
         ticks_frame = ticks_frame.drop(['spread', 'real_volume', 'tick_volume'], axis=1)
-        # display_data_frame(ticks_frame)
+        display_data_frame(ticks_frame)
         ticks_frame = sma(20, ticks_frame, 'close')
         ticks_frame = sma(50, ticks_frame, 'close')
         if detect_crossover(ticks_frame, 'SMA50', 'SMA20'):

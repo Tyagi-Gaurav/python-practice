@@ -32,7 +32,7 @@ def display_data_frame(ticks_frame):
 
     # display data
     # print("\nDisplay dataframe with ticks")
-    print(ticks_frame.tail(1))
+    print(ticks_frame)
 
 
 def save_data_frame_to_csv(ticks, csv_file_name):
