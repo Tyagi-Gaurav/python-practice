@@ -19,24 +19,21 @@ def main():
         to_local_cyp = datetime.now(cyprus_tz)
         from_local_cyp = datetime.now(cyprus_tz) - timedelta(hours=1)
         print(f"From: {from_local_cyp}\nTo: {to_local_cyp}\nSymbol: {symbol}")
-        ticks = get_rates_using_bars(symbol)
-        ticks_frame = pd.DataFrame(ticks)
-        ticks_frame = ticks_frame.drop(['spread', 'real_volume', 'tick_volume'], axis=1)
-        display_data_frame(ticks_frame)
+        ticks_frame = get_rates_using_bars(symbol)
+        # display_data_frame(ticks_frame)
         signal = detect_crossover(ticks_frame)
-        # print (signal)
-        if not signal.empty:
+        if signal == "bullish":
             print("Placing Buy order now")
             print(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
             # Place Buy trade (If previous then close that)
             position_id = place_buy_order(symbol)
-        # elif signal == 'bearish crossover':
-        #     # Place Sell Trade (If previous then close that)
-        #     print(f"Placing Sell order now with position_id {position_id}")
-        #     print(f"local_now: {local_now}: Buy Price: {ask_price}, Sell Price: {bid_price}")
-        #     if position_id != -1:
-        #         place_sell_order(symbol, position_id)
-        #         position_id = -1
+        elif signal == 'bearish':
+            # Place Sell Trade (If previous then close that)
+            print(f"Placing Sell order now with position_id {position_id}")
+            print(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
+            if position_id != -1:
+                place_sell_order(symbol, position_id)
+                position_id = -1
         time.sleep(60)
     mt5.shutdown()
     print("Program terminated...")

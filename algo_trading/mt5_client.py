@@ -15,9 +15,12 @@ print(mt5.terminal_info())
 # get data on MetaTrader 5 version
 print(mt5.version())
 
+
 def get_rates_using_bars(symbol, number_of_bars=1000):
-    # get 10 EURUSD H4 bars starting from 01.10.2020 in UTC time zone
-    return mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_M5, 0, number_of_bars)
+    ticks = mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_M5, 0, number_of_bars)
+    ticks_frame = pd.DataFrame(ticks)
+    return ticks_frame.drop(['spread', 'real_volume', 'tick_volume'], axis=1)
+
 
 def display_data_frame(ticks_frame):
     # convert time in seconds into the datetime format

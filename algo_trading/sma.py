@@ -1,7 +1,5 @@
 import numpy as np
 
-from mt5_client import display_data_frame
-
 
 def _sma(window_size, ticks_frame, column):
     ticks_frame[f'SMA{window_size}'] = ticks_frame[column].rolling(window_size).mean()
@@ -17,9 +15,14 @@ def detect_crossover(df, fastPeriod=50, slowPeriod=20):
     df['prev_fast_sma'] = df['fast_sma'].shift(1)
 
     df['crossover'] = np.vectorize(find_crossover)(df['fast_sma'], df['prev_fast_sma'], df['slow_sma'])
-    signal = df[df['crossover'] == 'bullish crossover'].copy()
-    display_data_frame(df)
-    return signal
+    bullish_signal = df[df['crossover'] == 'bullish crossover'].copy()
+    bearish_signal = df[df['crossover'] == 'bearish crossover'].copy()
+    if not bullish_signal.empty:
+        return "bullish"
+    elif not bearish_signal.emty:
+        return "bearish"
+    else:
+        return None
 
 def find_crossover(fast_sma, prev_fast_sma, slow_sma):
     if fast_sma > slow_sma > prev_fast_sma:
