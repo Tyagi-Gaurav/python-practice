@@ -13,18 +13,18 @@ def start(symbol, end_time=60 * 60 * 12, interval_in_seconds=60):
         ask_price = MetaTrader5.symbol_info_tick(symbol).ask
         bid_price = MetaTrader5.symbol_info_tick(symbol).bid
         ticks_frame = mt5_client.get_rates_using_bars(symbol)
-        signal = sma.detect_crossover(ticks_frame)
+        (df, signal) = sma.detect_crossover(ticks_frame)
         if signal == "bullish":
             print("Placing Buy order now")
             print(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
             # Place Buy trade (If previous then close that)
-            order_ticket = trade.place_buy_order(symbol)
+            order_ticket = trade.place_buy_order(df, symbol)
         elif signal == 'bearish':
             # Place Sell Trade (If previous then close that)
             # print(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
             if order_ticket != -1:
                 print(f"Placing Sell order now with ticket {order_ticket}")
-                trade.place_sell_order(symbol, order_ticket)
+                trade.place_sell_order(df, symbol, order_ticket)
                 order_ticket = -1
         time.sleep(interval_in_seconds)
 

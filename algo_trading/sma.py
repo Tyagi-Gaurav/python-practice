@@ -8,7 +8,7 @@ def _sma(window_size, ticks_frame, column):
     return ticks_frame
 
 
-def detect_crossover(df, fastPeriod=50, slowPeriod=20):
+def detect_crossover(df, fastPeriod=20, slowPeriod=50):
     df['fast_sma'] = df['close'].rolling(fastPeriod).mean()
     df['slow_sma'] = df['close'].rolling(slowPeriod).mean()
     df.dropna(inplace=True)
@@ -17,12 +17,16 @@ def detect_crossover(df, fastPeriod=50, slowPeriod=20):
     df['crossover'] = np.vectorize(find_crossover)(df['fast_sma'], df['prev_fast_sma'], df['slow_sma'])
     bullish_signal = df[df['crossover'] == 'bullish crossover'].copy()
     bearish_signal = df[df['crossover'] == 'bearish crossover'].copy()
-    if not bullish_signal.empty:
-        return "bullish"
-    elif not bearish_signal.emty:
-        return "bearish"
+    print (bullish_signal)
+    print(bearish_signal)
+    crossover = df.iloc[-1]['crossover']
+    print (df.iloc[-1])
+    if crossover == 'bullish crossover':
+        return df, "bullish"
+    elif crossover == 'bearish crossover':
+        return df, "bearish"
     else:
-        return None
+        return df, None
 
 def find_crossover(fast_sma, prev_fast_sma, slow_sma):
     if fast_sma > slow_sma > prev_fast_sma:
