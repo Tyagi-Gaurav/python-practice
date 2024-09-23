@@ -26,6 +26,8 @@ def start(symbol, end_time=60 * 60 * 12, interval_in_seconds=60):
                 print(f"Placing Sell order now with ticket {order_ticket}")
                 trade.place_sell_order(df, symbol, order_ticket)
                 order_ticket = -1
+        else:
+            print ("No signal")
         time.sleep(interval_in_seconds)
 
 

@@ -15,12 +15,10 @@ def detect_crossover(df, fastPeriod=20, slowPeriod=50):
     df['prev_fast_sma'] = df['fast_sma'].shift(1)
 
     df['crossover'] = np.vectorize(find_crossover)(df['fast_sma'], df['prev_fast_sma'], df['slow_sma'])
-    bullish_signal = df[df['crossover'] == 'bullish crossover'].copy()
-    bearish_signal = df[df['crossover'] == 'bearish crossover'].copy()
-    print (bullish_signal)
-    print(bearish_signal)
+    # bullish_signal = df[df['crossover'] == 'bullish crossover'].copy()
+    # bearish_signal = df[df['crossover'] == 'bearish crossover'].copy()
     crossover = df.iloc[-1]['crossover']
-    print (df.iloc[-1])
+    # print (df.iloc[-1])
     if crossover == 'bullish crossover':
         return df, "bullish"
     elif crossover == 'bearish crossover':
