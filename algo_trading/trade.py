@@ -37,7 +37,7 @@ def open_positions():
 def place_buy_order(df, symbol):
     lot = 1.0
     current_atr = atr(df)
-    tp_atr_multiplier = 1.4
+    tp_atr_multiplier = 1.5
     sl_atr_multiplier = 1
     point = mt5.symbol_info(symbol).point
     price = mt5.symbol_info_tick(symbol).ask

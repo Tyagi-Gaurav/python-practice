@@ -27,9 +27,9 @@ def detect_crossover(df, fastPeriod=20, slowPeriod=50):
         return df, None
 
 def find_crossover(fast_sma, slow_sma):
-    if fast_sma > slow_sma and (fast_sma - slow_sma) <= 0.03:
+    if fast_sma > slow_sma and (fast_sma - slow_sma) <= 0.05:
         return 'bearish crossover'
-    elif fast_sma < slow_sma and (slow_sma - fast_sma) <= 0.03:
+    elif fast_sma < slow_sma and (slow_sma - fast_sma) <= 0.05:
         return 'bullish crossover'
 
     return None
