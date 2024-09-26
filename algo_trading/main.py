@@ -4,10 +4,13 @@ import sma
 import trade
 import time
 import MetaTrader5
+import logging
 
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='myapp.log', level=logging.INFO)
 
 def save(df, position):
-    df.to_csv(f"{position.order_ticket - datetime.now().timestamp()}.csv")
+    df.to_csv(f"{position.order_ticket} - {datetime.now().timestamp()}.csv")
 
 
 def start(symbol, end_time=60 * 60 * 12, interval_in_seconds=60):
@@ -20,8 +23,8 @@ def start(symbol, end_time=60 * 60 * 12, interval_in_seconds=60):
             ticks_frame = mt5_client.get_rates_using_bars(symbol)
             (df, signal) = sma.detect_crossover(ticks_frame)
             if signal == "bullish":
-                print("Placing Buy order now")
-                print(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
+                logger.info("Placing Buy order now")
+                logger.info(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
                 # Place Buy trade (If previous then close that)
                 position = trade.place_buy_order(df, symbol)
                 if position:
@@ -29,21 +32,22 @@ def start(symbol, end_time=60 * 60 * 12, interval_in_seconds=60):
                     trades.add_position(position)
             elif signal == 'bearish':
                 # Place Sell Trade (If previous then close that)
-                print("Market is Bearish")
-                # print(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
+                logging.info("Market is Bearish")
+                # logging.info(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
                 for position in trades.get_open_positions():
                     trade.place_sell_order(position)
+                    position.status = 'CLOSED'
             else:
-                print("...")
+                logging.info("...")
         else:
-            print(f"Market is closed. Trying again in {interval_in_seconds} seconds.")
+            logging.info(f"Market is closed. Trying again in {interval_in_seconds} seconds.")
         time.sleep(interval_in_seconds)
 
 
 def main():
     start("XTIUSD")
     mt5.shutdown()
-    print("Program terminated...")
+    logging.info("Program terminated...")
 
 
 if __name__ == '__main__':

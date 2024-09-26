@@ -1,14 +1,14 @@
 from datetime import datetime
 
 import MetaTrader5 as mt5
-
+import logging
 from position import Position
-
+logger = logging.getLogger(__name__)
 
 def market_is_open():
     result = mt5.symbol_info_tick("XTIUSD")._asdict()
     difference = datetime.now().timestamp() - result['time']
-    # print (f"timeNow {datetime.now().timestamp()} - tickTime: {result["time"]}, difference: {difference}")
+    # logging.info (f"timeNow {datetime.now().timestamp()} - tickTime: {result["time"]}, difference: {difference}")
     return difference < 10
 
 
@@ -30,22 +30,22 @@ def atr(df, n=14):
 
 def open_positions():
     positions_total = mt5.positions_total()
-    print(f"Number of open positions: {positions_total}")
+    logging.info(f"Number of open positions: {positions_total}")
     return positions_total > 0
 
 
 def place_buy_order(df, symbol):
     lot = 1.0
     current_atr = atr(df)
-    tp_atr_multiplier = 1.5
+    tp_atr_multiplier = 1.2
     sl_atr_multiplier = 1
     point = mt5.symbol_info(symbol).point
     price = mt5.symbol_info_tick(symbol).ask
-    print(f"1. Placing order at point {point} with buy at {price} using atr {current_atr}")
+    logging.info(f"1. Placing order at point {point} with buy at {price} using atr {current_atr}")
     deviation = 20  # TODO What is this?
     sl = price - current_atr * sl_atr_multiplier
     tp = price + current_atr * tp_atr_multiplier
-    print(f"current_atr {current_atr}")
+    logging.info(f"current_atr {current_atr}")
     request = {
         "action": mt5.TRADE_ACTION_DEAL,
         "symbol": symbol,
@@ -63,34 +63,35 @@ def place_buy_order(df, symbol):
 
     if not open_positions():
         result = mt5.order_send(request)
-        print("1. order_send(): by {} {} lots at {} with deviation={} points".format(symbol, lot, price, deviation))
+        logging.info("1. order_send(): by {} {} lots at {} with deviation={} points".format(symbol, lot, price, deviation))
         if result:
             if result.retcode != mt5.TRADE_RETCODE_DONE:
-                print("2. order_send failed, retcode={}".format(result.retcode))
+                logging.info("2. order_send failed, retcode={}".format(result.retcode))
                 # request the result as a dictionary and display it element by element
                 result_dict = result._asdict()
                 for field in result_dict.keys():
-                    print("{}={}".format(field, result_dict[field]))
+                    logging.info("{}={}".format(field, result_dict[field]))
                     # if this is a trading request structure, display it element by element as well
                     if field == "request":
                         traderequest_dict = result_dict[field]._asdict()
                         for tradereq_filed in traderequest_dict:
                             print("       traderequest: {}={}".format(tradereq_filed,
                                                                       traderequest_dict[tradereq_filed]))
-                print("shutdown() and quit")
+                logging.info("shutdown() and quit")
             else:
-                print(result)
+                logging.info(result)
+                logging.info(result.order)
                 return Position(datetime.now(), symbol, result.ask, "BUY", result.volume, sl, tp,
                                 result.order)
         else:
-            print("Could not place order. Please check order request.")
+            logging.info("Could not place order. Please check order request.")
     else:
-        print("There are open buy order. Not placing order until they close.")
+        logging.info("There are open buy order. Not placing order until they close.")
 
 
 def place_sell_order(position):
-    price = mt5.symbol_info_tick(position.symbol).bid
     deviation = 20
+    logging.info(f"PLacing sell order for position with ticket: {position.order_ticket}")
     request = {
         "action": mt5.TRADE_ACTION_DEAL,
         "symbol": position.symbol,
@@ -108,28 +109,28 @@ def place_sell_order(position):
         # send a trading request
         result = mt5.order_send(request)
         # check the execution result
-        print(
+        logging.info(
             "3. close position #{}: sell {} {} lots at {} with deviation={} points".format(position.order_ticket,
                                                                                            position.symbol,
                                                                                            position.volume,
                                                                                            position.open_price,
                                                                                            deviation));
         if result.retcode != mt5.TRADE_RETCODE_DONE:
-            print("4. order_send failed, retcode={}".format(result.retcode))
-            print("result", result)
+            logging.info("4. order_send failed, retcode={}".format(result.retcode))
+            logging.info("result comment: ", result.comment)
         else:
-            print("4. position #{} closed, {}".format(position.order_ticket, result))
+            logging.info("4. position #{} closed, {}".format(position.order_ticket, result))
             # request the result as a dictionary and display it element by element
             result_dict = result._asdict()
             for field in result_dict.keys():
-                print("   {}={}".format(field, result_dict[field]))
+                logging.info("{}={}".format(field, result_dict[field]))
                 # if this is a trading request structure, display it element by element as well
                 if field == "request":
                     traderequest_dict = result_dict[field]._asdict()
                     for tradereq_filed in traderequest_dict:
-                        print("traderequest: {}={}".format(tradereq_filed, traderequest_dict[tradereq_filed]))
+                        logging.info("traderequest: {}={}".format(tradereq_filed, traderequest_dict[tradereq_filed]))
     else:
-        print("Not sending order. Market is closed.")
+        logging.info("Not sending order. Market is closed.")
         return None
 
 

@@ -150,16 +150,8 @@ equities, and currencies, as they adjust to the new outlook for interest rates.
 * Dovish economy
 
 # Todo
-* SMA - 20 + SMA - 50 + Place trade in python when ready
-* Monitor manually and close where needed
 * Hawkish economy - What is?
 * Dovish economy - What is ?
 * Consolidation detection
-  * Detect if market is going through consolidation - Use ATR
-  * When SMA20 crosses over SMA50, then check ATR. If ATR is more than a factor then place trade.
-  * Factor of ATR to be determined slowly
-* Create python thread to monitor trade and check for SMA20 + 50 crossover again in 1 min intervals
-  * Use ATR to determine or terminate trade
-  * Use ATR as reference to detect how close the averages are to detect consolidation
-  * or Use last 10 candles to determine consolidation/confusion
+  * What is the condition where SMA20 indicates crossover, but ATR is going down?
 * Swiss Index explore

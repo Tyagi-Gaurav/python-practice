@@ -1,9 +1,10 @@
 import pandas as pd
-
+import logging
 from pandas.plotting import register_matplotlib_converters
 
 register_matplotlib_converters()
 import MetaTrader5 as mt5
+logger = logging.getLogger(__name__)
 
 # connect to MetaTrader 5
 if not mt5.initialize():
