@@ -1,44 +1,19 @@
-from datetime import datetime
-import mt5_client
-import sma
-import trade
-import time
-import MetaTrader5
 import logging
+import time
+import trade
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename='myapp.log', level=logging.INFO)
-
-def save(df, position):
-    df.to_csv(f"{position.order_ticket} - {datetime.now().timestamp()}.csv")
+logging.basicConfig(filename='myapp.log',
+                    format='%(asctime)s %(levelname)-8s %(message)s',
+                    level=logging.INFO,
+                    datefmt='%Y-%m-%d %H:%M:%S')
 
 
 def start(symbol, end_time=60 * 60 * 12, interval_in_seconds=60):
     t_end = time.time() + end_time  # Run for 12 hour
-    trades = trade.Trade()
     while time.time() < t_end:
-        if trade.market_is_open():
-            ask_price = MetaTrader5.symbol_info_tick(symbol).ask
-            bid_price = MetaTrader5.symbol_info_tick(symbol).bid
-            ticks_frame = mt5_client.get_rates_using_bars(symbol)
-            (df, signal) = sma.detect_crossover(ticks_frame)
-            if signal == "bullish":
-                logger.info("Placing Buy order now")
-                logger.info(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
-                # Place Buy trade (If previous then close that)
-                position = trade.place_buy_order(df, symbol)
-                if position:
-                    save(df, position)
-                    trades.add_position(position)
-            elif signal == 'bearish':
-                # Place Sell Trade (If previous then close that)
-                logging.info("Market is Bearish")
-                # logging.info(f"local_now: {datetime.now()}: Buy Price: {ask_price}, Sell Price: {bid_price}")
-                for position in trades.get_open_positions():
-                    trade.place_sell_order(position)
-                    position.status = 'CLOSED'
-            else:
-                logging.info("...")
+        if trade.is_market_open():
+            trade.apply_sma_strategy(symbol)
         else:
             logging.info(f"Market is closed. Trying again in {interval_in_seconds} seconds.")
         time.sleep(interval_in_seconds)

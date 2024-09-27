@@ -4,11 +4,12 @@ from pandas.plotting import register_matplotlib_converters
 
 register_matplotlib_converters()
 import MetaTrader5 as mt5
+
 logger = logging.getLogger(__name__)
 
 # connect to MetaTrader 5
 if not mt5.initialize():
-    print("initialize() failed")
+    logging.info("initialize() failed")
     mt5.shutdown()
 
 # request connection status and parameters
@@ -23,13 +24,22 @@ def get_rates_using_bars(symbol, number_of_bars=1000):
     return ticks_frame.drop(['spread', 'real_volume', 'tick_volume'], axis=1)
 
 
+def get_positions_total():
+    return mt5.positions_total()
+
+
+def get_symbol_info_tick(symbol):
+    return mt5.symbol_info_tick(symbol)
+
+
+def get_symbol_info(symbol):
+    return mt5.symbol_info(symbol)
+
+
 def display_data_frame(ticks_frame):
     # convert time in seconds into the datetime format
     ticks_frame['time'] = pd.to_datetime(ticks_frame['time'], unit='s')
-
-    # display data
-    # print("\nDisplay dataframe with ticks")
-    print(ticks_frame)
+    logging.debug(ticks_frame)
 
 
 def save_data_frame_to_csv(ticks, csv_file_name):

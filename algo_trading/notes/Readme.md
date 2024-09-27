@@ -152,6 +152,9 @@ equities, and currencies, as they adjust to the new outlook for interest rates.
 # Todo
 * Hawkish economy - What is?
 * Dovish economy - What is ?
-* Consolidation detection
-  * What is the condition where SMA20 indicates crossover, but ATR is going down?
 * Swiss Index explore
+* Questions
+  * What is the condition where SMA20 indicates crossover, but ATR is going down?
+  * Morning trade review
+  * Frequency of trades?
+  * Once a trade makes profit, should we be going for another trade after it closes?
