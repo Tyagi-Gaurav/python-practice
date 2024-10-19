@@ -153,8 +153,21 @@ equities, and currencies, as they adjust to the new outlook for interest rates.
 * Hawkish economy - What is?
 * Dovish economy - What is ?
 * Swiss Index explore
+* Generate consolidation range
+  * Average range of (High - Low) of last 9 days of candles
+  * Place limit order based on the lowest point of the last candle - consolidation range
+* Generate Success ratio
+* Buy/Sell from one consolidation to next
+* Create config class that contains time to trade and mode of trade
+  * Mode of trade = TRADE/MONITOR
+  * Trading time to start around 5:30pm Wednesday to Friday evening
+  * Trading type to be either both buy and sell, only buy or only sell.
+* Notes
+  * As Oil inventory of US goes up, price goes down.
+  * Less Oil inventory, price goes up.
 * Questions
   * What is the condition where SMA20 indicates crossover, but ATR is going down?
-  * Morning trade review
-  * Frequency of trades?
-  * Once a trade makes profit, should we be going for another trade after it closes?
+
+
+
+

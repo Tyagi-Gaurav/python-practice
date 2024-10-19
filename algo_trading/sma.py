@@ -1,6 +1,8 @@
 import numpy as np
 import logging
 
+from Domain import Given
+
 logger = logging.getLogger(__name__)
 
 
@@ -11,40 +13,54 @@ def _sma(window_size, ticks_frame, column):
     return ticks_frame
 
 
-def in_consolidation(df):
+def in_consolidation(given: Given):
+    df = given.__dict__.get("df")
     return (round(abs(df['fast_sma'] - df['slow_sma']), 1) <= 0.05).all()
 
 
-def detect_crossover(df, fastPeriod=20, slowPeriod=50):
-    df['fast_sma'] = df['close'].rolling(fastPeriod).mean()
-    df['slow_sma'] = df['close'].rolling(slowPeriod).mean()
+def calculate_consolidation_range(given: Given):
+    df = given.__dict__.get("df")
+    last_x_rows = df.copy().tail(9)
+    last_x_rows['high_low_diff'] = last_x_rows['high'] - last_x_rows['low']
+    cr = last_x_rows['high_low_diff'].mean()
+    given.add("consolidation_range", cr)
+    return cr
+
+
+def calculate_sma(given: Given, sma_name, period):
+    df = given.__dict__.get("df")
+    df[sma_name] = df['close'].rolling(period).mean()
     df.dropna(inplace=True)
 
-    if not in_consolidation(df.iloc[-9:]):  # Last 9 rows
-        df['crossover'] = np.vectorize(find_crossover)(df['fast_sma'], df['slow_sma'])
-        crossover = df.iloc[-1]['crossover']
-        logging.debug (df.iloc[-1])
-        if crossover == 'bullish crossover':
-            return df, "bullish"
-        elif crossover == 'bearish crossover':
-            return df, "bearish"
-    else:
-        logging.info("Market consolidating")
 
-    return df, None
+def is_bearish_crossover(given: Given):
+    df = given.__dict__.get("df")
+    crossover = df.iloc[-1]['crossover']
+    return crossover == 'bearish crossover'
+
+
+def is_bullish_crossover(given: Given):
+    df = given.__dict__.get("df")
+    crossover = df.iloc[-1]['crossover']
+    return crossover == 'bullish crossover'
+
+
+def detect_crossover(given: Given, fast_sma='fast_sma', slow_sma='slow_sma'):
+    df = given.__dict__.get("df")
+    df['crossover'] = np.vectorize(_find_crossover)(df[fast_sma], df[slow_sma])
+
+
+def _find_crossover(fast_sma, slow_sma):
+    if fast_sma > slow_sma and (fast_sma - slow_sma) > 0.05:  # SMA 20 > SMA 50
+        return 'bullish crossover'
+    elif fast_sma < slow_sma and (slow_sma - fast_sma) > 0.05:  # SMA 20 < SMA 50
+        return 'bearish crossover'
+
+    return None
 
 
 def detect_consolidation(fast_sma, slow_sma):
     if abs(fast_sma - slow_sma) <= 0.02:
         return 'consolidation'
-
-    return None
-
-
-def find_crossover(fast_sma, slow_sma):
-    if fast_sma > slow_sma and (fast_sma - slow_sma) > 0.05:  # SMA 20 > SMA 50
-        return 'bullish crossover'
-    elif fast_sma < slow_sma and (slow_sma - fast_sma) > 0.05:  # SMA 20 < SMA 50
-        return 'bearish crossover'
 
     return None

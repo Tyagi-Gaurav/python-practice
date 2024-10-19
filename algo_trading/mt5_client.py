@@ -44,3 +44,6 @@ def display_data_frame(ticks_frame):
 
 def save_data_frame_to_csv(ticks, csv_file_name):
     ticks.to_csv(csv_file_name)
+
+def shutdown():
+    mt5.shutdown()
